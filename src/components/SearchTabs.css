@@ -1,0 +1,38 @@
+.search-wrapper {
+  padding: 40px;
+}
+
+.tabs-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-pill {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.tab-pill.active {
+  background: #008cff;
+  color: #fff;
+}
+
+.search-card {
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.search-btn {
+  padding: 14px 80px;
+  border-radius: 30px;
+  border: none;
+  background: #008cff;
+  color: white;
+  font-size: 18px;
+}

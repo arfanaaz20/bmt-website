@@ -1,0 +1,26 @@
+.mega-section {
+  background: #ffffff;
+  padding: 40px 0;
+}
+
+.mega-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 16px;
+}
+
+.mega-block {
+  margin-bottom: 26px;
+}
+
+.mega-block h4 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.mega-block p {
+  font-size: 12px;
+  color: #333;
+  line-height: 1.6;
+}

@@ -1,0 +1,21 @@
+.book-bus {
+  padding: 120px 30px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #0a66ff;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.confirm-btn {
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: #0a66ff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

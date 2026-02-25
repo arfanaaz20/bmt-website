@@ -1,0 +1,191 @@
+/* ExploreMoreBar.css - Original Desktop Style, Small Mobile */
+
+/* ================= DESKTOP STYLES ================= */
+.explore-wrapper {
+  position: relative;
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+  padding: 0 15px;
+}
+
+.explore-bar {
+  background: #fff;
+  display: flex;
+  gap: 30px;
+  padding: 16px 28px;
+  border-radius: 40px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  align-items: center;
+  /* max-width: 1200px; */
+  /* width: 100%; */
+}
+
+.explore-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.explore-item b {
+  font-size: 14px;
+}
+
+.explore-item p {
+  font-size: 12px;
+  color: #777;
+  margin: 0;
+}
+
+.icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.new {
+  background: #e05194;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+/* ================= MOBILE - SMALL TEXT & ICONS ================= */
+/* Mobile: Small horizontal layout */
+@media (max-width: 768px) {
+  .explore-wrapper {
+    margin-top: -6px;
+    padding: 0 8px;
+  }
+  
+  .explore-bar {
+    padding: 6px 10px;
+    border-radius: 16px;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    justify-content: flex-start;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  }
+  
+  .explore-bar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .explore-item {
+    gap: 5px;
+    flex-shrink: 0;
+    padding: 3px 5px;
+  }
+  
+  .explore-item b {
+    font-size: 9px;
+    font-weight: 600;
+  }
+  
+  .explore-item p {
+    font-size: 7px;
+    line-height: 1;
+  }
+  
+  .icon svg {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .new {
+    font-size: 6px;
+    padding: 1px 3px;
+    margin-left: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Small Mobile (≤480px) */
+@media (max-width: 480px) {
+  .explore-wrapper {
+    padding: 0 6px;
+  }
+  
+  .explore-bar {
+    padding: 5px 8px;
+    border-radius: 14px;
+    gap: 1px;
+  }
+  
+  .explore-item {
+    gap: 4px;
+    padding: 2px 4px;
+  }
+  
+  .explore-item b {
+    font-size: 8px;
+  }
+  
+  .explore-item p {
+    font-size: 6px;
+  }
+  
+  .icon svg {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .new {
+    font-size: 5px;
+    padding: 0 2px;
+  }
+}
+
+/* Extra Small Mobile (≤360px) */
+@media (max-width: 360px) {
+  .explore-bar {
+    padding: 4px 6px;
+    gap: 5px;
+  }
+  
+  .explore-item {
+    gap: 3px;
+    padding: 1px 3px;
+  }
+  
+  .explore-item b {
+    font-size: 7px;
+  }
+  
+  .explore-item p {
+    font-size: 5px;
+  }
+  
+  .icon svg {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .new {
+    font-size: 4px;
+    padding: 0 1px;
+  }
+}
+
+/* ================= TABLET ================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .explore-bar {
+    gap: 24px;
+    padding: 14px 24px;
+  }
+}
+
+/* ================= DESKTOP ================= */
+@media (min-width: 1025px) {
+  .explore-bar {
+    gap: 30px;
+    padding: 16px 28px;
+  }
+}

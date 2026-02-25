@@ -1,0 +1,53 @@
+.list-property-page {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.list-property-page h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.list-property-page p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.property-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.property-form input,
+.property-form select,
+.property-form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.property-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.property-form button {
+  background: #ff5a5f;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.property-form button:hover {
+  background: #e0484d;
+}

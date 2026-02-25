@@ -1,0 +1,211 @@
+.exclusive-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 40px;
+  margin: 0 auto;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: #001e42;
+}
+
+.scroll-container-relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.scroll-wrapper {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 5px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Welcome Card */
+.welcome-card {
+  min-width: 320px;
+  height: 160px;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f7ff 100%);
+  border: 1px solid #e5eefb;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.welcome-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.welcome-content p {
+  font-size: 18px;
+  font-weight: 700;
+  color: #001e42;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Ticket Design */
+.ticket-card {
+  min-width: 320px;
+  height: 160px;
+  display: flex;
+  background: white;
+  border: 1px solid #ffd6e0;
+  border-radius: 16px;
+  flex-shrink: 0;
+  position: relative;
+  scroll-snap-align: start;
+}
+
+.ticket-left {
+  flex: 2.5;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.discount-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.label-text {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.ticket-divider {
+  width: 1px;
+  border-left: 2px dashed #ffd6e0;
+  margin: 15px 0;
+  position: relative;
+}
+
+.notch {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 1px solid #ffd6e0;
+  border-radius: 50%;
+  left: -11px;
+}
+
+.notch.top { top: -26px; }
+.notch.bottom { bottom: -26px; }
+
+.ticket-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+}
+
+/* Buttons */
+.claim-btn {
+  background-color: #2b6cff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.claim-btn:hover {
+  background-color: #1a56db;
+}
+
+.main-btn {
+  width: 100%;
+}
+
+.arrow-btn {
+  width: 44px;
+  height: 44px;
+  background: white;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  right: -22px;
+  z-index: 10;
+  cursor: pointer;
+  color: #333;
+}
+
+.arrow-btn:hover {
+  background-color: #f8f8f8;
+}
+
+/* ─── MOBILE FIXES ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .exclusive-container {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .arrow-btn {
+    display: none;
+  }
+
+  /* Both cards same full width, one at a time */
+  .welcome-card,
+  .ticket-card {
+    min-width: calc(100vw - 48px);
+    max-width: calc(100vw - 48px);
+    height: 160px;
+  }
+
+  .discount-text {
+    font-size: 19px;
+  }
+
+  .welcome-content p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .welcome-card,
+  .ticket-card {
+    min-width: calc(100vw - 40px);
+    max-width: calc(100vw - 40px);
+  }
+}

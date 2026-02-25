@@ -1,0 +1,113 @@
+.main-wrapper {
+  padding: 40px;
+  background-color: #f8f9fa;
+  font-family: sans-serif;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.more-link {
+  color: #003580;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 3 columns on desktop, auto adjust on mobile */
+.hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.hotel-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+}
+
+.image-wrapper {
+  position: relative;
+  height: 200px;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.content-wrapper {
+  padding: 15px;
+}
+
+.city-name {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+}
+
+.hotel-title {
+  font-size: 16px;
+  margin: 5px 0;
+  color: #1a1a1a;
+  height: 40px;
+  overflow: hidden;
+}
+
+.stars {
+  color: #ffb400;
+  margin-bottom: 10px;
+}
+
+.rating-badge {
+  background: #003580;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.review-text {
+  color: #666;
+  font-size: 12px;
+}
+
+.price-tag {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.from-text {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.old-price {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 12px;
+  margin-left: 10px;
+}

@@ -1,0 +1,203 @@
+.places-section {
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.places-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+}
+
+.more-link {
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.carousel-container {
+  position: relative;
+  align-items: center;
+}
+
+.scroll-area {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 10px 0;
+}
+
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.reel-card {
+  min-width: 200px;
+  flex-shrink: 0;
+}
+
+.image-containers {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 14;
+  max-height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.reel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Badges on top */
+.top-badges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-best {
+  background: rgba(255, 255, 255, 0.9);
+  color: #8B4513;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.wishlist-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Content Overlay */
+.content-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 30px 12px 12px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  color: white;
+}
+
+.tag-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.location-tag, .rank-tag {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.place-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 4px 0;
+  line-height: 1.2;
+}
+
+.stats {
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow.left { left: -15px; }
+.nav-arrow.right { right: -15px; }
+
+/* ── MOBILE: exactly 2 cards visible ── */
+@media (max-width: 600px) {
+  .nav-arrow {
+    display: none;
+  }
+
+  .places-section {
+    padding: 0 12px;
+  }
+
+  .scroll-area {
+    gap: 10px;
+    /* Snap for smooth swipe */
+    scroll-snap-type: x mandatory;
+  }
+
+  .reel-card {
+    /* 2 cards + gap(10px) + section padding(24px total) fit in viewport */
+    min-width: calc((100vw - 34px) / 2);
+    max-width: calc((100vw - 34px) / 2);
+    scroll-snap-align: start;
+  }
+
+  .image-containers {
+    max-height: 260px;
+  }
+
+  .place-title {
+    font-size: 12px;
+  }
+
+  .stats {
+    font-size: 10px;
+  }
+
+  .trip-best {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+
+  .wishlist-btn {
+    width: 26px;
+    height: 26px;
+  }
+}

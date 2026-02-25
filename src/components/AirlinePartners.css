@@ -1,0 +1,63 @@
+/* Page background */
+.airline-section {
+  background: #f2f6f9;
+  padding: 20px 0 20px;
+}
+
+/* Container */
+.airline-container {
+  max-width: 1200px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.airline-container h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Grid */
+.airline-grid {
+  background: #ffffff;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Card – clean image only */
+.airline-card {
+  height: 140px;
+  border-radius: 18px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); */
+}
+
+/* Mobile Fix */
+@media (max-width: 480px) {
+  .airline-container {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .airline-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .airline-card {
+    height: 160px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .airline-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}

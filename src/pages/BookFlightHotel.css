@@ -1,0 +1,12 @@
+.book-combo {
+  padding: 30px;
+}
+
+.confirm-btn {
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: #0a66ff !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 10px;
+}

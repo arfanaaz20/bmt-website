@@ -1,0 +1,63 @@
+.trip-wrapper {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f7ff;
+}
+
+.trip-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+}
+
+.trip-card h2 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.trip-card p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.trip-form input,
+.trip-form select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.trip-form .row {
+  display: flex;
+  gap: 12px;
+}
+
+.trip-form button {
+  width: 100%;
+  padding: 14px;
+  background: #008cff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.trip-form button:hover {
+  background: #0074d9;
+}
+
+@media (max-width: 600px) {
+  .trip-form .row {
+    flex-direction: column;
+  }
+}

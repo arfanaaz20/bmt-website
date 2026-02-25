@@ -1,0 +1,92 @@
+.info-section {
+  background: transparent; /* No background as requested */
+  padding: 60px 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.info-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* TOP SEO TEXT SECTION */
+.info-top {
+  margin-bottom: 30px;
+}
+
+.info-subheadline {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a2b48;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.seo-text {
+  font-size: 13.5px;
+  color: #5e6d77;
+  line-height: 1.8;
+  text-align: justify; /* Proper alignment */
+  margin: 0;
+}
+
+/* HORIZONTAL DIVIDER */
+.info-divider {
+  border: 0;
+  border-top: 1px solid #e5e7eb;
+  margin-bottom: 40px;
+}
+
+/* GRID LAYOUT */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px; /* Increased gap for better readability */
+}
+
+.info-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a2b48;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+/* Optional: Choti si line heading ke niche for style */
+.info-box h3::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #3554d1; /* Primary Blue color */
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+.info-box p {
+  font-size: 14.5px;
+  color: #475467;
+  line-height: 1.7;
+  text-align: justify; /* Properly structured text */
+  margin-bottom: 15px;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .info-grid {
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .info-section {
+    padding: 40px 0;
+  }
+}

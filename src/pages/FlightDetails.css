@@ -1,0 +1,95 @@
+/* .flight-details {
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.flight-details h2 {
+  margin-bottom: 10px;
+}
+
+.flight-details p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.flight-details h3 {
+  margin: 16px 0;
+  color: #0a66ff;
+}
+
+.back-btn {
+  margin-bottom: 16px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.book-btn {
+  margin-top: 20px;
+  padding: 12px 22px;
+  background: #0a66ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.flight-detail-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 20px;
+} */
+
+
+.flight-details {
+  padding: 30px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* 🔙 BACK BUTTON – FORCE STYLE */
+.back-btn {
+  margin-bottom: 16px;
+  padding: 10px 20px;
+
+  background-color: #0a66ff !important;
+  color: #ffffff !important;
+
+  border: none !important;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #084fc7 !important;
+}
+
+/* IMAGE */
+.flight-detail-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+/* BOOK BUTTON */
+.book-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+
+  background-color: #0a66ff !important;
+  color: #fff !important;
+
+  border: none !important;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}

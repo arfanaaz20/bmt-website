@@ -1,0 +1,149 @@
+.invite-wrapper {
+  min-height: calc(100vh - 80px);
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0f4c81, #1e90ff);
+  color: #fff;
+}
+
+.invite-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.invite-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.invite-header h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.invite-header p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.invite-info {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 50px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.invite-steps h2,
+.invite-benefits h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.step-card {
+  background: #fff;
+  color: #000;
+  border-radius: 14px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.step-card span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #1e90ff;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.invite-benefits ul {
+  max-width: 700px;
+  margin: auto;
+  list-style: none;
+  padding: 0;
+}
+
+.invite-benefits li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  position: relative;
+  padding-left: 22px;
+}
+
+.invite-benefits li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #ffcc00;
+}
+
+.invite-cta {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 12px 28px;
+  background: #ffcc00;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline {
+  padding: 12px 28px;
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.invite-terms {
+  margin-top: 40px;
+  font-size: 14px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+
+
+.invite-wrapper {
+  min-height: calc(100vh - 80px);
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #eaf3ff, #f6f9ff);
+  color: #222;
+}
+
+
+
+.btn-outline {
+  padding: 12px 28px;
+  background: #e9f7ef;
+  color: #1d8348;
+  border: 2px solid #1d8348;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background: #1d8348;
+  color: #ffffff;
+}
