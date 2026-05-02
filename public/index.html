@@ -4,60 +4,137 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="description" content="Bird My Trip - Find your perfect stay" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!-- public/index.html - Head section mein dalo -->
-  <!-- Existing meta tags -->
-  
-  <!-- 🌟 PREMIUM TRAVEL FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
-  <!-- 1. Plus Jakarta Sans - Luxury Travel (Airbnb Style) -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- 2. Inter - Clean Body Text -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- 3. Manrope - Friendly Travel Vibe -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- 4. Poppins - Bold Headings -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- 5. Lato - Fallback (already in your code) -->
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <!-- ✅ PREMIUM FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ GOOGLE TRANSLATE INIT -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            includedLanguages:
+              "hi,ar,zh-TW,zh-CN,da,nl,fi,fr,de,el,id,it,ja,ko,ms,pl,pt,ru,es,sv,th,tr,uk,vi",
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false,
+            multilanguagePage: true,
+          },
+          "google_translate_element"
+        );
+      }
+
+      // ── On page load: apply saved language from localStorage ──
+      (function applySavedLanguage() {
+        try {
+          var saved = localStorage.getItem("bmt_lang");
+          if (!saved) return;
+          var lang = JSON.parse(saved);
+          if (!lang || !lang.code) return;
+
+          // Check if cookie already set for this language
+          var cookieValue = "/en/" + lang.code;
+          var cookies = document.cookie;
+          if (cookies.indexOf("googtrans=" + cookieValue) === -1) {
+            // Cookie not set — set it so GT picks it up on load
+            var hostname = window.location.hostname;
+            document.cookie = "googtrans=" + cookieValue + "; path=/";
+            document.cookie = "googtrans=" + cookieValue + "; path=/; domain=" + hostname;
+            document.cookie = "googtrans=" + cookieValue + "; path=/; domain=." + hostname;
+          }
+        } catch (e) {
+          // Silently fail
+        }
+      })();
+    </script>
+
+    <!-- ✅ GOOGLE TRANSLATE SCRIPT -->
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <!-- ✅ GOOGLE TRANSLATE STYLE CLEANUP -->
+    <style>
+      /* Remove Google's floating top bar */
+      .goog-te-banner-frame.skiptranslate,
+      .goog-te-banner-frame {
+        display: none !important;
+      }
+      /* Prevent body shift when GT banner would show */
+      body {
+        top: 0px !important;
+        position: relative !important;
+      }
+      /* Hide the element GT renders (we use our own UI) */
+      /* #google_translate_element {
+        display: none !important;
+      } */
+       #google_translate_element {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+      /* Remove GT branding from translated pages */
+      .goog-logo-link,
+      .goog-te-gadget span {
+        display: none !important;
+      }
+      .goog-te-gadget {
+        color: transparent !important;
+        font-size: 0 !important;
+      }
+      /* GT dropdown menu styling */
+      .goog-te-menu-frame {
+        border-radius: 16px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14) !important;
+        border: 1px solid #e5e7eb !important;
+        overflow: hidden !important;
+      }
+      .goog-te-menu2-item div,
+      .goog-te-menu2-item:link div,
+      .goog-te-menu2-item:visited div,
+      .goog-te-menu2-item:active div {
+        font-family: "Plus Jakarta Sans", sans-serif !important;
+        font-size: 13px !important;
+        padding: 8px 16px !important;
+      }
+      .goog-te-menu2-item:hover div {
+        background-color: #eff6ff !important;
+        color: #2563eb !important;
+      }
+
+      /* Global font override */
+      * {
+        font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+      }
+    </style>
+
     <title>Bird My Trip</title>
   </head>
-  <body>
+  <!-- <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+  </body> -->
+  <body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+  <!-- ✅ Google Translate mount point (IMPORTANT) -->
+  <div id="google_translate_element"></div>
+
+  <!-- ✅ React App -->
+  <div id="root"></div>
+</body>
 </html>

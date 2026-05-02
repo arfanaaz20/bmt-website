@@ -1,4 +1,11 @@
+
+
 /* App.css - COMPLETE FIX */
+
+:root{
+  --recent-searches:#03adfc;
+}
+
 
 * {
   margin: 0;
@@ -104,4 +111,22 @@ body {
 /* Prevent body scroll on mobile when sidebar is open */
 body.sidebar-open-mobile {
   overflow: hidden !important;
+}
+
+/* Hide scrollbar for Chrome, Safari */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+.no-scrollbar {
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none;
 }

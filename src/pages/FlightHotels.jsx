@@ -1,47 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 import {
-  Building2,
-  Globe,
-  Landmark,
-  MapPin,
-  Plane,
-  Star,
-  ShieldCheck,
-  RefreshCcw,
-  Sparkles,
-  Headphones,
-  Hotel,
-  Search,
-  Gift,
-  Award,
-  Clock,
-  CheckCircle,
-  DollarSign,
-  Users,
-  Calendar,
-  ChevronRight,
-  Heart,
-  Wifi,
-  Coffee,
-  Dumbbell,
-  Car,
-  Utensils,
-  Wind,
-  Tv,
-  Briefcase,
-  ThumbsUp,
-  AlertCircle,
-  Filter,
-  X
+  Building2, Globe, Landmark, MapPin, Plane, Star, ShieldCheck,
+  RefreshCcw, Sparkles, Headphones, Hotel, Search, Gift, Award,
+  Clock, CheckCircle, DollarSign, Users, Calendar, ChevronRight,
+  Heart, Wifi, Coffee, Dumbbell, Car, Utensils, Wind, Tv,
+  Briefcase, ThumbsUp, AlertCircle, Filter, X, ArrowLeftRight,
+  TrendingUp, Zap, Shield
 } from "lucide-react";
 
 const FlightHotels = () => {
   const navigate = useNavigate();
-  
-  // State Management
+
   const [tripType, setTripType] = useState('round');
   const [selectedCity, setSelectedCity] = useState('london');
   const [loading, setLoading] = useState(false);
@@ -50,37 +20,22 @@ const FlightHotels = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showDetails, setShowDetails] = useState({});
   const [wishlist, setWishlist] = useState([]);
-  
-  // Search Parameters
+
   const [searchParams, setSearchParams] = useState({
-    fromCity: 'London',
-    fromCode: 'LON',
-    toCity: 'San Jose',
-    toCode: 'SJC',
-    departureDate: '2026-01-31',
-    returnDate: '2026-02-03',
-    rooms: 1,
-    adults: 2,
-    children: 0,
-    infants: 0,
-    cabinClass: 'economy'
+    fromCity: 'London', fromCode: 'LON',
+    toCity: 'San Jose', toCode: 'SJC',
+    departureDate: '2026-01-31', returnDate: '2026-02-03',
+    rooms: 1, adults: 2, children: 0, infants: 0, cabinClass: 'economy'
   });
 
-  // Filters
   const [filters, setFilters] = useState({
-    priceRange: [2000, 50000],
-    starRating: [],
-    hotelType: [],
-    amenities: [],
-    flightTimings: [],
-    airlines: []
+    priceRange: [2000, 50000], starRating: [], hotelType: [],
+    amenities: [], flightTimings: [], airlines: []
   });
 
-  // Sort Options
   const [sortOption, setSortOption] = useState('Recommended');
   const sortOptions = ['Recommended', 'Price: Low to High', 'Price: High to Low', 'Rating', 'Savings'];
 
-  // Popular Cities
   const popularCities = [
     { id: "london", name: "London", code: "LON", hotels: "2,450+", icon: Landmark, country: "UK", flag: "🇬🇧" },
     { id: "nyc", name: "New York", code: "NYC", hotels: "3,120+", icon: Building2, country: "USA", flag: "🇺🇸" },
@@ -92,10 +47,8 @@ const FlightHotels = () => {
     { id: "sydney", name: "Sydney", code: "SYD", hotels: "1,540+", icon: Globe, country: "Australia", flag: "🇦🇺" }
   ];
 
-  // Cabin Classes
   const cabinClasses = ['economy', 'premium', 'business', 'first'];
 
-  // Amenities
   const amenitiesList = [
     { id: 'wifi', icon: Wifi, label: 'Free WiFi' },
     { id: 'pool', icon: Dumbbell, label: 'Pool' },
@@ -103,344 +56,127 @@ const FlightHotels = () => {
     { id: 'gym', icon: Dumbbell, label: 'Gym' },
     { id: 'restaurant', icon: Utensils, label: 'Restaurant' },
     { id: 'parking', icon: Car, label: 'Parking' },
-    { id: 'ac', icon: Wind, label: 'Air Conditioning' },
-    { id: 'tv', icon: Tv, label: 'TV' }
   ];
 
-  // Star Ratings
   const starRatings = [5, 4, 3, 2, 1];
 
-  // Mock Flight + Hotel Packages Data
   const mockPackages = [
     {
       id: 1,
       hotel: {
-        id: 101,
-        name: "The Peninsula",
-        city: "London",
-        country: "United Kingdom",
-        flag: "🇬🇧",
-        rating: 4.9,
-        reviews: 1287,
-        starRating: 5,
-        pricePerNight: 24500,
-        discount: 25,
+        id: 101, name: "The Peninsula", city: "London", country: "United Kingdom", flag: "🇬🇧",
+        rating: 4.9, reviews: 1287, starRating: 5, pricePerNight: 24500, discount: 25,
         badge: "Most Popular",
         amenities: ["Free WiFi", "Spa", "Pool", "Butler", "Restaurant", "Gym"],
         image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=400&auto=format&fit=crop&q=80",
-        location: "Knightsbridge",
-        checkIn: "15:00",
-        checkOut: "11:00",
+        location: "Knightsbridge", checkIn: "15:00", checkOut: "11:00",
         description: "Luxury hotel in the heart of London with stunning views"
       },
       flight: {
-        outbound: {
-          airline: "British Airways",
-          flightNumber: "BA123",
-          departureTime: "08:30",
-          arrivalTime: "10:45",
-          duration: "2h 15m",
-          class: "Economy"
-        },
-        inbound: {
-          airline: "British Airways",
-          flightNumber: "BA456",
-          departureTime: "19:30",
-          arrivalTime: "21:45",
-          duration: "2h 15m",
-          class: "Economy"
-        }
+        outbound: { airline: "British Airways", flightNumber: "BA123", departureTime: "08:30", arrivalTime: "10:45", duration: "2h 15m", class: "Economy" },
+        inbound: { airline: "British Airways", flightNumber: "BA456", departureTime: "19:30", arrivalTime: "21:45", duration: "2h 15m", class: "Economy" }
       },
-      packagePrice: 89750,
-      totalSavings: 22400,
-      originalPrice: 112150,
-      nights: 3,
-      includes: ["Flight", "Hotel", "Breakfast", "Airport Transfer"],
-      availableRooms: 8,
-      badge: "Best Seller"
+      packagePrice: 89750, totalSavings: 22400, originalPrice: 112150,
+      nights: 3, includes: ["Flight", "Hotel", "Breakfast", "Airport Transfer"],
+      availableRooms: 8, badge: "Best Seller"
     },
     {
       id: 2,
       hotel: {
-        id: 102,
-        name: "St. Regis",
-        city: "New York",
-        country: "United States",
-        flag: "🇺🇸",
-        rating: 4.8,
-        reviews: 2045,
-        starRating: 5,
-        pricePerNight: 28900,
-        discount: 15,
+        id: 102, name: "St. Regis", city: "New York", country: "United States", flag: "🇺🇸",
+        rating: 4.8, reviews: 2045, starRating: 5, pricePerNight: 28900, discount: 15,
         badge: "Top Rated",
         amenities: ["Fine Dining", "Bar", "Spa", "Gym", "Concierge"],
         image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&auto=format&fit=crop&q=80",
-        location: "Midtown Manhattan",
-        checkIn: "16:00",
-        checkOut: "12:00",
+        location: "Midtown Manhattan", checkIn: "16:00", checkOut: "12:00",
         description: "Iconic luxury hotel in New York City"
       },
       flight: {
-        outbound: {
-          airline: "Delta Airlines",
-          flightNumber: "DL789",
-          departureTime: "09:45",
-          arrivalTime: "12:30",
-          duration: "2h 45m",
-          class: "Premium"
-        },
-        inbound: {
-          airline: "Delta Airlines",
-          flightNumber: "DL101",
-          departureTime: "20:15",
-          arrivalTime: "23:00",
-          duration: "2h 45m",
-          class: "Premium"
-        }
+        outbound: { airline: "Delta Airlines", flightNumber: "DL789", departureTime: "09:45", arrivalTime: "12:30", duration: "2h 45m", class: "Premium" },
+        inbound: { airline: "Delta Airlines", flightNumber: "DL101", departureTime: "20:15", arrivalTime: "23:00", duration: "2h 45m", class: "Premium" }
       },
-      packagePrice: 115600,
-      totalSavings: 20400,
-      originalPrice: 136000,
-      nights: 4,
-      includes: ["Flight", "Hotel", "Breakfast", "Dinner", "City Tour"],
-      availableRooms: 5,
-      badge: "Luxury"
+      packagePrice: 115600, totalSavings: 20400, originalPrice: 136000,
+      nights: 4, includes: ["Flight", "Hotel", "Breakfast", "Dinner", "City Tour"],
+      availableRooms: 5, badge: "Luxury"
     },
     {
       id: 3,
       hotel: {
-        id: 103,
-        name: "Four Seasons",
-        city: "Bangkok",
-        country: "Thailand",
-        flag: "🇹🇭",
-        rating: 4.9,
-        reviews: 1567,
-        starRating: 5,
-        pricePerNight: 22300,
-        discount: 30,
+        id: 103, name: "Four Seasons", city: "Bangkok", country: "Thailand", flag: "🇹🇭",
+        rating: 4.9, reviews: 1567, starRating: 5, pricePerNight: 22300, discount: 30,
         badge: "Luxury Pick",
         amenities: ["Pool", "Spa", "Butler", "Restaurant", "Bar"],
         image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&auto=format&fit=crop&q=80",
-        location: "Riverside",
-        checkIn: "14:00",
-        checkOut: "12:00",
+        location: "Riverside", checkIn: "14:00", checkOut: "12:00",
         description: "Riverside luxury resort in Bangkok"
       },
       flight: {
-        outbound: {
-          airline: "Thai Airways",
-          flightNumber: "TG202",
-          departureTime: "22:30",
-          arrivalTime: "06:30",
-          duration: "8h",
-          class: "Business"
-        },
-        inbound: {
-          airline: "Thai Airways",
-          flightNumber: "TG303",
-          departureTime: "21:00",
-          arrivalTime: "05:00",
-          duration: "8h",
-          class: "Business"
-        }
+        outbound: { airline: "Thai Airways", flightNumber: "TG202", departureTime: "22:30", arrivalTime: "06:30", duration: "8h", class: "Business" },
+        inbound: { airline: "Thai Airways", flightNumber: "TG303", departureTime: "21:00", arrivalTime: "05:00", duration: "8h", class: "Business" }
       },
-      packagePrice: 66900,
-      totalSavings: 28700,
-      originalPrice: 95600,
-      nights: 3,
-      includes: ["Flight", "Hotel", "All Meals", "Spa Credit", "Airport Transfer"],
-      availableRooms: 3,
-      badge: "Limited Offer"
+      packagePrice: 66900, totalSavings: 28700, originalPrice: 95600,
+      nights: 3, includes: ["Flight", "Hotel", "All Meals", "Spa Credit", "Airport Transfer"],
+      availableRooms: 3, badge: "Limited Offer"
     },
     {
       id: 4,
       hotel: {
-        id: 104,
-        name: "Marina Bay Sands",
-        city: "Singapore",
-        country: "Singapore",
-        flag: "🇸🇬",
-        rating: 4.8,
-        reviews: 3241,
-        starRating: 5,
-        pricePerNight: 35700,
-        discount: 20,
+        id: 104, name: "Marina Bay Sands", city: "Singapore", country: "Singapore", flag: "🇸🇬",
+        rating: 4.8, reviews: 3241, starRating: 5, pricePerNight: 35700, discount: 20,
         badge: "Iconic",
         amenities: ["Infinity Pool", "Casino", "Spa", "SkyPark", "Restaurants"],
-       image: "https://images.unsplash.com/photo-1525596662741-e94ff9f26de1?w=800&auto=format&fit=crop&q=80",
-        location: "Marina Bay",
-        checkIn: "15:00",
-        checkOut: "11:00",
+        image: "https://images.unsplash.com/photo-1525596662741-e94ff9f26de1?w=800&auto=format&fit=crop&q=80",
+        location: "Marina Bay", checkIn: "15:00", checkOut: "11:00",
         description: "Iconic hotel with infinity pool overlooking Singapore"
       },
       flight: {
-        outbound: {
-          airline: "Singapore Airlines",
-          flightNumber: "SQ321",
-          departureTime: "10:15",
-          arrivalTime: "20:45",
-          duration: "10h 30m",
-          class: "Premium"
-        },
-        inbound: {
-          airline: "Singapore Airlines",
-          flightNumber: "SQ322",
-          departureTime: "23:45",
-          arrivalTime: "10:15",
-          duration: "10h 30m",
-          class: "Premium"
-        }
+        outbound: { airline: "Singapore Airlines", flightNumber: "SQ321", departureTime: "10:15", arrivalTime: "20:45", duration: "10h 30m", class: "Premium" },
+        inbound: { airline: "Singapore Airlines", flightNumber: "SQ322", departureTime: "23:45", arrivalTime: "10:15", duration: "10h 30m", class: "Premium" }
       },
-      packagePrice: 142800,
-      totalSavings: 35700,
-      originalPrice: 178500,
-      nights: 4,
-      includes: ["Flight", "Hotel", "Breakfast", "SkyPark Access"],
-      availableRooms: 12,
-      badge: "Popular"
+      packagePrice: 142800, totalSavings: 35700, originalPrice: 178500,
+      nights: 4, includes: ["Flight", "Hotel", "Breakfast", "SkyPark Access"],
+      availableRooms: 12, badge: "Popular"
     },
     {
       id: 5,
       hotel: {
-        id: 105,
-        name: "Burj Al Arab",
-        city: "Dubai",
-        country: "UAE",
-        flag: "🇦🇪",
-        rating: 5.0,
-        reviews: 987,
-        starRating: 7,
-        pricePerNight: 125000,
-        discount: 15,
+        id: 105, name: "Burj Al Arab", city: "Dubai", country: "UAE", flag: "🇦🇪",
+        rating: 5.0, reviews: 987, starRating: 7, pricePerNight: 125000, discount: 15,
         badge: "Ultra Luxury",
         amenities: ["Private Beach", "Helipad", "Butler", "Infinity Pool", "Luxury Spa"],
         image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&auto=format&fit=crop&q=80",
-        location: "Jumeirah Beach",
-        checkIn: "15:00",
-        checkOut: "12:00",
+        location: "Jumeirah Beach", checkIn: "15:00", checkOut: "12:00",
         description: "World's only 7-star hotel, sail-shaped icon of Dubai"
       },
       flight: {
-        outbound: {
-          airline: "Emirates",
-          flightNumber: "EK001",
-          departureTime: "14:30",
-          arrivalTime: "00:30",
-          duration: "6h",
-          class: "First"
-        },
-        inbound: {
-          airline: "Emirates",
-          flightNumber: "EK002",
-          departureTime: "02:30",
-          arrivalTime: "12:30",
-          duration: "6h",
-          class: "First"
-        }
+        outbound: { airline: "Emirates", flightNumber: "EK001", departureTime: "14:30", arrivalTime: "00:30", duration: "6h", class: "First" },
+        inbound: { airline: "Emirates", flightNumber: "EK002", departureTime: "02:30", arrivalTime: "12:30", duration: "6h", class: "First" }
       },
-      packagePrice: 500000,
-      totalSavings: 75000,
-      originalPrice: 575000,
-      nights: 4,
-      includes: ["First Class Flight", "Suite", "All Meals", "Limousine", "Butler"],
-      availableRooms: 2,
-      badge: "Exclusive"
+      packagePrice: 500000, totalSavings: 75000, originalPrice: 575000,
+      nights: 4, includes: ["First Class Flight", "Suite", "All Meals", "Limousine", "Butler"],
+      availableRooms: 2, badge: "Exclusive"
     },
     {
       id: 6,
       hotel: {
-        id: 106,
-        name: "Hotel de Crillon",
-        city: "Paris",
-        country: "France",
-        flag: "🇫🇷",
-        rating: 4.9,
-        reviews: 876,
-        starRating: 5,
-        pricePerNight: 45700,
-        discount: 25,
+        id: 106, name: "Hotel de Crillon", city: "Paris", country: "France", flag: "🇫🇷",
+        rating: 4.9, reviews: 876, starRating: 5, pricePerNight: 45700, discount: 25,
         badge: "Heritage",
         amenities: ["Spa", "Michelin Restaurant", "Courtyard", "Bar", "Concierge"],
         image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&auto=format&fit=crop&q=80",
-        location: "Place de la Concorde",
-        checkIn: "15:00",
-        checkOut: "12:00",
+        location: "Place de la Concorde", checkIn: "15:00", checkOut: "12:00",
         description: "Historic luxury hotel on Place de la Concorde"
       },
       flight: {
-        outbound: {
-          airline: "Air France",
-          flightNumber: "AF123",
-          departureTime: "09:00",
-          arrivalTime: "12:30",
-          duration: "1h 30m",
-          class: "Business"
-        },
-        inbound: {
-          airline: "Air France",
-          flightNumber: "AF456",
-          departureTime: "18:30",
-          arrivalTime: "20:00",
-          duration: "1h 30m",
-          class: "Business"
-        }
+        outbound: { airline: "Air France", flightNumber: "AF123", departureTime: "09:00", arrivalTime: "12:30", duration: "1h 30m", class: "Business" },
+        inbound: { airline: "Air France", flightNumber: "AF456", departureTime: "18:30", arrivalTime: "20:00", duration: "1h 30m", class: "Business" }
       },
-      packagePrice: 137100,
-      totalSavings: 45700,
-      originalPrice: 182800,
-      nights: 3,
-      includes: ["Flight", "Hotel", "Breakfast", "Museum Pass"],
-      availableRooms: 6,
-      badge: "Romantic"
+      packagePrice: 137100, totalSavings: 45700, originalPrice: 182800,
+      nights: 3, includes: ["Flight", "Hotel", "Breakfast", "Museum Pass"],
+      availableRooms: 6, badge: "Romantic"
     }
   ];
 
-  // Trending Packages
-  const trendingPackages = [
-    {
-      id: 1,
-      route: "London → Paris",
-      duration: "3 nights",
-      price: "₹45,999",
-      savings: "Save ₹8,400",
-      hotels: ["The Ritz", "Hotel de Crillon"],
-      image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&auto=format&fit=crop&q=80",
-      rating: 4.8
-    },
-    {
-      id: 2,
-      route: "New York → Miami",
-      duration: "4 nights",
-      price: "₹52,500",
-      savings: "Save ₹9,200",
-      hotels: ["The Plaza", "Fontainebleau"],
-      image: "https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=400&auto=format&fit=crop&q=80",
-      rating: 4.7
-    },
-    {
-      id: 3,
-      route: "Dubai → Maldives",
-      duration: "5 nights",
-      price: "₹89,999",
-      savings: "Save ₹15,000",
-      hotels: ["Conrad Maldives", "Soneva Fushi"],
-      image: "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=400&auto=format&fit=crop&q=80",
-      rating: 4.9
-    },
-    {
-      id: 4,
-      route: "Singapore → Bali",
-      duration: "4 nights",
-      price: "₹42,800",
-      savings: "Save ₹7,500",
-      hotels: ["Four Seasons Bali", "Mandapa"],
-      image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&auto=format&fit=crop&q=80",
-      rating: 4.8
-    }
-  ];
-
-  // Features
   const features = [
     { icon: <DollarSign size={20} />, title: "Best Price Guarantee", desc: "Save up to 40% on packages" },
     { icon: <RefreshCcw size={20} />, title: "Free Cancellation", desc: "Cancel within 24 hours" },
@@ -450,744 +186,538 @@ const FlightHotels = () => {
     { icon: <Award size={20} />, title: "Reward Points", desc: "Earn on every booking" }
   ];
 
-  // Testimonials
   const testimonials = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      trip: "London → Paris",
-      rating: 5,
-      comment: "Amazing package! The hotel was perfect and flights were on time. Saved over ₹8,000!",
-      // Updated stable Unsplash link for Sarah
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80"
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      trip: "New York → Miami",
-      rating: 5,
-      comment: "Best booking experience ever. The app is so easy to use and customer service is top notch.",
-      // Updated stable Unsplash link for Michael
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80"
+    { id: 1, name: "Sarah Johnson", trip: "London → Paris", rating: 5, comment: "Amazing package! The hotel was perfect and flights were on time. Saved over ₹8,000!", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80" },
+    { id: 2, name: "Michael Chen", trip: "New York → Miami", rating: 5, comment: "Best booking experience ever. The app is so easy to use and customer service is top notch.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" }
+  ];
+
+  useEffect(() => { setSearchResults(mockPackages); }, []);
+
+  const sortPackages = (packages, option) => {
+    const sorted = [...packages];
+    switch (option) {
+      case 'Price: Low to High': return sorted.sort((a, b) => a.packagePrice - b.packagePrice);
+      case 'Price: High to Low': return sorted.sort((a, b) => b.packagePrice - a.packagePrice);
+      case 'Rating': return sorted.sort((a, b) => b.hotel.rating - a.hotel.rating);
+      case 'Savings': return sorted.sort((a, b) => b.totalSavings - a.totalSavings);
+      default: return sorted.sort((a, b) => (b.hotel.rating * b.totalSavings) - (a.hotel.rating * a.totalSavings));
     }
-];
+  };
 
-  // API URLs (configurable)
-  const API_BASE = 'https://api.example.com/api';
-  const PACKAGES_API = `${API_BASE}/flight-hotel-packages`;
-  const BOOKINGS_API = `${API_BASE}/bookings`;
-  const WISHLIST_API = `${API_BASE}/wishlist`;
-
-  // Initialize with mock data
-  useEffect(() => {
-    setSearchResults(mockPackages);
-  }, []);
-
-  // Search Packages
   const searchPackages = () => {
     setLoading(true);
-    
-    // Simulate API call
     setTimeout(() => {
       let results = [...mockPackages];
-      
-      // Apply filters
-      if (filters.starRating.length > 0) {
-        results = results.filter(pkg => 
-          filters.starRating.includes(pkg.hotel.starRating)
-        );
-      }
-      
-      if (filters.amenities.length > 0) {
-        results = results.filter(pkg =>
-          filters.amenities.every(amenity =>
-            pkg.hotel.amenities.includes(amenity)
-          )
-        );
-      }
-      
-      // Apply sorting
+      if (filters.starRating.length > 0) results = results.filter(pkg => filters.starRating.includes(pkg.hotel.starRating));
+      if (filters.amenities.length > 0) results = results.filter(pkg => filters.amenities.every(a => pkg.hotel.amenities.includes(a)));
       results = sortPackages(results, sortOption);
-      
       setSearchResults(results);
       setLoading(false);
     }, 1000);
   };
 
-  // Sort Packages
-  const sortPackages = (packages, option) => {
-    const sorted = [...packages];
-    
-    switch (option) {
-      case 'Price: Low to High':
-        return sorted.sort((a, b) => a.packagePrice - b.packagePrice);
-      case 'Price: High to Low':
-        return sorted.sort((a, b) => b.packagePrice - a.packagePrice);
-      case 'Rating':
-        return sorted.sort((a, b) => b.hotel.rating - a.hotel.rating);
-      case 'Savings':
-        return sorted.sort((a, b) => b.totalSavings - a.totalSavings);
-      case 'Recommended':
-      default:
-        return sorted.sort((a, b) => (b.hotel.rating * b.totalSavings) - (a.hotel.rating * a.totalSavings));
-    }
-  };
-
-  // Handle Search
-  const handleSearch = (e) => {
-    e.preventDefault();
-    searchPackages();
-  };
-
-  // Handle Input Change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setSearchParams(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Handle City Select
+  const handleSearch = (e) => { e.preventDefault(); searchPackages(); };
+  const handleInputChange = (e) => { const { name, value } = e.target; setSearchParams(prev => ({ ...prev, [name]: value })); };
   const handleCitySelect = (cityId) => {
     setSelectedCity(cityId);
     const city = popularCities.find(c => c.id === cityId);
-    if (city) {
-      setSearchParams(prev => ({
-        ...prev,
-        toCity: city.name,
-        toCode: city.code
-      }));
-    }
+    if (city) setSearchParams(prev => ({ ...prev, toCity: city.name, toCode: city.code }));
   };
+  const swapCities = () => setSearchParams(prev => ({ ...prev, fromCity: prev.toCity, fromCode: prev.toCode, toCity: prev.fromCity, toCode: prev.fromCode }));
+  const toggleDetails = (packageId, e) => { e.stopPropagation(); setShowDetails(prev => ({ ...prev, [packageId]: !prev[packageId] })); };
+  const toggleWishlist = (packageId, e) => { e.stopPropagation(); setWishlist(prev => prev.includes(packageId) ? prev.filter(id => id !== packageId) : [...prev, packageId]); };
+  const toggleFilter = (type, value) => { setFilters(prev => { const current = prev[type]; return current.includes(value) ? { ...prev, [type]: current.filter(v => v !== value) } : { ...prev, [type]: [...current, value] }; }); };
+  const formatPrice = (price) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price);
+  const getStarRating = (rating) => '★'.repeat(Math.floor(rating)) + '½'.repeat(rating % 1 >= 0.5 ? 1 : 0);
 
-  // Swap Cities
-  const swapCities = () => {
-    setSearchParams(prev => ({
-      ...prev,
-      fromCity: prev.toCity,
-      fromCode: prev.toCode,
-      toCity: prev.fromCity,
-      toCode: prev.fromCode
-    }));
-  };
+  const handleViewPackage = (pkg) => navigate('/package-details', { state: { package: pkg, searchParams } });
+  const handleBookNow = (pkg, e) => { e.stopPropagation(); navigate('/package-details', { state: { package: pkg, searchParams } }); };
 
-  // Toggle Details
-  const toggleDetails = (packageId, e) => {
-    e.stopPropagation();
-    setShowDetails(prev => ({
-      ...prev,
-      [packageId]: !prev[packageId]
-    }));
-  };
-
-  // Toggle Wishlist
-  const toggleWishlist = (packageId, e) => {
-    e.stopPropagation();
-    setWishlist(prev => {
-      if (prev.includes(packageId)) {
-        return prev.filter(id => id !== packageId);
-      } else {
-        return [...prev, packageId];
-      }
-    });
-  };
-
-  // Toggle Filter
-  const toggleFilter = (type, value) => {
-    setFilters(prev => {
-      const current = prev[type];
-      if (current.includes(value)) {
-        return { ...prev, [type]: current.filter(v => v !== value) };
-      } else {
-        return { ...prev, [type]: [...current, value] };
-      }
-    });
-  };
-
-  // Format Price
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0
-    }).format(price);
-  };
-
-  // Get Star Rating Display
-  const getStarRating = (rating) => {
-    return '★'.repeat(Math.floor(rating)) + '½'.repeat(rating % 1 >= 0.5 ? 1 : 0);
-  };
-
-  // Handle View Package
-  const handleViewPackage = (pkg) => {
-    navigate('/package-details', {
-      state: {
-        package: pkg,
-        searchParams
-      }
-    });
-  };
-
-  // Handle Booking
-  const handleBookNow = (pkg) => {
-    navigate('/package-details', {
-      state: {
-        package: pkg,
-        passengers: searchParams.adults + searchParams.children,
-        rooms: searchParams.rooms,
-        totalPrice: pkg.packagePrice
-      }
-    });
+  const badgeColor = (badge) => {
+    const map = { 'Best Seller': 'bg-orange-500', 'Luxury': 'bg-purple-600', 'Limited Offer': 'bg-red-500', 'Popular': 'bg-blue-600', 'Exclusive': 'bg-yellow-600', 'Romantic': 'bg-pink-500', default: 'bg-gray-600' };
+    return map[badge] || map.default;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-       
+    <div className="min-h-screen" style={{ backgroundColor: '#f5f6fa', fontFamily: "'Segoe UI', sans-serif" }}>
 
-        {/* Main Search Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex gap-4">
-              {['round', 'one-way', 'multi'].map((type) => (
-                <button
-                  key={type}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    tripType === type
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                  onClick={() => setTripType(type)}
-                >
-                  {type === 'round' ? 'Round Trip' : type === 'one-way' ? 'One Way' : 'Multi City'}
-                </button>
-              ))}
+      {/* ── HERO ── */}
+      <div className="relative overflow-hidden" style={{ minHeight: 260 }}>
+        <img
+          src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1600&q=80"
+          alt="hero"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(110deg, rgba(10,25,80,0.88) 0%, rgba(30,50,140,0.82) 45%, rgba(160,30,40,0.78) 100%)' }} />
+
+        <div className="relative z-10 max-w-screen-2xl mx-auto px-4 pt-8 pb-0">
+          {/* Headline */}
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-2">
+              <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-xs font-medium text-white border border-white/30" style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}>
+                <Plane size={12} /> Over 50,000 Flight+Hotel Packages
+              </span>
             </div>
-            <div className="text-sm text-green-600 flex items-center gap-1">
-              <CheckCircle size={16} />
-              <span>Free cancellation on most hotels</span>
-            </div>
+            <h1 className="text-4xl font-extrabold text-white leading-tight mb-1">
+              Flight <span style={{ color: '#f5a623' }}>+</span> Hotel <span style={{ color: '#f5a623' }}>Perfect Packages</span>
+            </h1>
+            <p className="text-white/75 text-sm">Best prices · Verified hotels · Instant confirmation · No hidden charges</p>
           </div>
 
-          <form onSubmit={handleSearch}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-              {/* From Location */}
-              <div className="relative">
-                <label className="block text-sm text-gray-500 mb-1">From</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="fromCity"
-                    value={searchParams.fromCity}
-                    onChange={handleInputChange}
-                    placeholder="Departure city"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <Plane className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500" size={18} />
-                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
-                    {searchParams.fromCode}
-                  </span>
-                </div>
-              </div>
-
-              {/* Swap Button */}
-              <div className="flex items-end">
+          {/* ── SEARCH CARD ── */}
+          <div className="bg-white rounded-2xl shadow-2xl p-5 w-full" style={{ position: 'relative', zIndex: 20 }}>
+            {/* Trip type tabs */}
+            <div className="flex items-center gap-1 mb-5">
+              {[
+                { key: 'round', label: 'Round Trip' },
+                { key: 'one-way', label: 'One Way' },
+                { key: 'multi', label: 'Multi City' }
+              ].map(({ key, label }) => (
                 <button
-                  type="button"
-                  onClick={swapCities}
-                  className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 mb-1"
+                  key={key}
+                  onClick={() => setTripType(key)}
+                  className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+                  style={tripType === key ? { background: '#1a3fa8', color: '#fff' } : { background: '#f0f2f8', color: '#555' }}
                 >
-                  <RefreshCcw size={18} className="text-gray-600" />
+                  {label}
                 </button>
+              ))}
+              <div className="ml-auto flex items-center gap-1.5 text-xs font-medium" style={{ color: '#22a86e' }}>
+                <CheckCircle size={14} /> Free cancellation on most hotels
               </div>
+            </div>
 
-              {/* To Location */}
-              <div className="relative">
-                <label className="block text-sm text-gray-500 mb-1">To</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="toCity"
-                    value={searchParams.toCity}
-                    onChange={handleInputChange}
-                    placeholder="Arrival city"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500" size={18} />
-                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
-                    {searchParams.toCode}
-                  </span>
-                </div>
-              </div>
+            <form onSubmit={handleSearch}>
+              {/* ── ROW 1: From / Swap / To / Check-in / Check-out / Rooms / Guests ── */}
+              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_1fr_1fr_1fr_1fr] gap-3 mb-3 items-end">
 
-              {/* Dates */}
-              <div className="grid grid-cols-2 gap-2">
-                <div className="relative">
-                  <label className="block text-sm text-gray-500 mb-1">Departure</label>
+                {/* From */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">From</label>
                   <div className="relative">
+                    <Plane className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500" size={15} />
                     <input
-                      type="date"
-                      name="departureDate"
-                      value={searchParams.departureDate}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      type="text" name="fromCity" value={searchParams.fromCity} onChange={handleInputChange}
+                      placeholder="Departure city"
+                      className="w-full pl-9 pr-12 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 font-medium"
+                      style={{ borderColor: '#e0e4f0' }}
                     />
-                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold" style={{ color: '#1a3fa8' }}>{searchParams.fromCode}</span>
                   </div>
                 </div>
-                <div className="relative">
-                  <label className="block text-sm text-gray-500 mb-1">Return</label>
+
+                {/* Swap */}
+                <div className="flex justify-center pb-0.5">
+                  <button type="button" onClick={swapCities}
+                    className="p-2.5 rounded-xl border-2 hover:bg-blue-50 transition-colors flex-shrink-0"
+                    style={{ borderColor: '#e0e4f0' }}>
+                    <ArrowLeftRight size={16} style={{ color: '#1a3fa8' }} />
+                  </button>
+                </div>
+
+                {/* To */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">To</label>
                   <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-red-500" size={15} />
                     <input
-                      type="date"
-                      name="returnDate"
-                      value={searchParams.returnDate}
-                      onChange={handleInputChange}
+                      type="text" name="toCity" value={searchParams.toCity} onChange={handleInputChange}
+                      placeholder="Arrival city"
+                      className="w-full pl-9 pr-12 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 font-medium"
+                      style={{ borderColor: '#e0e4f0' }}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold" style={{ color: '#1a3fa8' }}>{searchParams.toCode}</span>
+                  </div>
+                </div>
+
+                {/* Check-in */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">Check-in</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+                    <input type="date" name="departureDate" value={searchParams.departureDate} onChange={handleInputChange}
+                      className="w-full pl-9 pr-3 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 font-medium"
+                      style={{ borderColor: '#e0e4f0' }} />
+                  </div>
+                </div>
+
+                {/* Check-out */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">Check-out</label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+                    <input type="date" name="returnDate" value={searchParams.returnDate} onChange={handleInputChange}
                       disabled={tripType === 'one-way'}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
-                    />
-                    <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                      className="w-full pl-9 pr-3 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 disabled:bg-gray-50 disabled:text-gray-400 font-medium"
+                      style={{ borderColor: '#e0e4f0' }} />
+                  </div>
+                </div>
+
+                {/* Rooms */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">Rooms</label>
+                  <div className="relative">
+                    <Hotel className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+                    <select className="w-full pl-9 pr-3 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 appearance-none bg-white font-medium" style={{ borderColor: '#e0e4f0' }}>
+                      <option>1 Room</option><option>2 Rooms</option><option>3 Rooms</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Guests */}
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wide">Guests</label>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+                    <select className="w-full pl-9 pr-3 py-3 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 appearance-none bg-white font-medium" style={{ borderColor: '#e0e4f0' }}>
+                      <option>2 Adults</option><option>1 Adult</option><option>3 Adults</option><option>4 Adults</option>
+                    </select>
                   </div>
                 </div>
               </div>
 
-              {/* Travelers & Class */}
-              <div className="relative">
-                <label className="block text-sm text-gray-500 mb-1">Travelers & Class</label>
+              {/* ── ROW 2: Cabin Class + Search Button + Quick Filters ── */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Cabin Class */}
                 <div className="relative">
-                  <select
-                    className="w-full pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white"
-                    value={`${searchParams.adults} adults, ${searchParams.rooms} rooms`}
-                    onChange={(e) => {
-                      // This would open a modal for detailed selection
-                    }}
-                  >
-                    <option>1 room, 2 adults</option>
-                    <option>1 room, 1 adult</option>
-                    <option>2 rooms, 4 adults</option>
-                    <option>1 room, 2 adults, 1 child</option>
+                  <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+                  <select name="cabinClass" value={searchParams.cabinClass} onChange={handleInputChange}
+                    className="pl-9 pr-8 py-2.5 border-2 rounded-xl text-sm focus:outline-none focus:border-blue-500 appearance-none bg-white font-medium"
+                    style={{ borderColor: '#e0e4f0' }}>
+                    {cabinClasses.map(cls => <option key={cls} value={cls}>{cls.charAt(0).toUpperCase() + cls.slice(1)}</option>)}
                   </select>
-                  <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">▼</span>
                 </div>
-              </div>
 
-              {/* Cabin Class */}
-              <div className="relative">
-                <label className="block text-sm text-gray-500 mb-1">Cabin Class</label>
-                <div className="relative">
-                  <select
-                    name="cabinClass"
-                    value={searchParams.cabinClass}
-                    onChange={handleInputChange}
-                    className="w-full pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white"
-                  >
-                    {cabinClasses.map(cls => (
-                      <option key={cls} value={cls}>
-                        {cls.charAt(0).toUpperCase() + cls.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-                  <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">▼</span>
-                </div>
-              </div>
-
-              {/* Search Button */}
-              <div className="flex items-end">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                >
+                {/* Search Button */}
+                <button type="submit" disabled={loading}
+                  className="flex items-center gap-2 px-7 py-2.5 rounded-xl text-white font-bold text-sm transition-all hover:opacity-90 active:scale-95 disabled:opacity-60 shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #c0392b 0%, #e74c3c 100%)', boxShadow: '0 4px 15px rgba(192,57,43,0.4)' }}>
                   {loading ? (
-                    <>
-                      <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Searching...
-                    </>
+                    <><svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>Searching...</>
                   ) : (
-                    <>
-                      <Search size={18} />
-                      Search Packages
-                    </>
+                    <><Search size={16} /> Search Packages</>
                   )}
                 </button>
-              </div>
-            </div>
-          </form>
 
-          {/* Popular Destinations */}
-          <div className="mt-6">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-700">Popular Destinations:</span>
-              <span className="text-xs text-blue-600 cursor-pointer hover:underline">View all</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {popularCities.slice(0, 8).map((city) => {
-                const IconComponent = city.icon;
-                return (
-                  <button
-                    key={city.id}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
-                      selectedCity === city.id
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
-                    onClick={() => handleCitySelect(city.id)}
-                  >
+                {/* Divider */}
+                <div className="h-6 w-px bg-gray-200 mx-1" />
+
+                {/* Quick Filters */}
+                <span className="text-xs text-gray-400 font-medium">Quick Filter:</span>
+                {[2, 3, 4, 5].map(s => (
+                  <button key={s} type="button"
+                    onClick={() => toggleFilter('starRating', s)}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all"
+                    style={filters.starRating.includes(s)
+                      ? { background: '#1a3fa8', color: '#fff', borderColor: '#1a3fa8' }
+                      : { background: 'transparent', color: '#555', borderColor: '#ddd' }}>
+                    {s}★
+                  </button>
+                ))}
+                <button type="button"
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all flex items-center gap-1"
+                  style={{ background: 'transparent', color: '#555', borderColor: '#ddd' }}>
+                  <Heart size={11} /> Lowest Price
+                </button>
+                <button type="button"
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all flex items-center gap-1"
+                  style={{ background: 'transparent', color: '#555', borderColor: '#ddd' }}>
+                  <TrendingUp size={11} /> Top Rated
+                </button>
+              </div>
+            </form>
+
+            {/* Popular Destinations */}
+            <div className="mt-5 pt-4" style={{ borderTop: '1px solid #f0f2f8' }}>
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Popular Destinations</span>
+                <span className="text-xs font-semibold cursor-pointer" style={{ color: '#1a3fa8' }}>View all →</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {popularCities.map((city) => (
+                  <button key={city.id} onClick={() => handleCitySelect(city.id)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl border-2 transition-all text-left"
+                    style={selectedCity === city.id
+                      ? { borderColor: '#1a3fa8', background: '#eef2ff' }
+                      : { borderColor: '#e8eaf0', background: '#fafbff' }}>
                     <span className="text-lg">{city.flag}</span>
-                    <div className="text-left">
-                      <div className="text-sm font-medium">{city.name}</div>
-                      <div className="text-xs text-gray-500">{city.code} • {city.hotels} hotels</div>
+                    <div>
+                      <div className="text-xs font-bold text-gray-700">{city.name}</div>
+                      <div className="text-xs text-gray-400">{city.code} · {city.hotels}</div>
                     </div>
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Features Bar */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+        {/* extra space below card */}
+        <div style={{ height: 60 }} />
+      </div>
+
+      {/* ── FEATURES BAR ── */}
+      <div className="max-w-screen-2xl mx-auto px-4 mt-6 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm p-5">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
-                  {feature.icon}
-                </div>
+            {features.map((f, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl" style={{ background: '#eef2ff', color: '#1a3fa8' }}>{f.icon}</div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-800">{feature.title}</h4>
-                  <p className="text-xs text-gray-500">{feature.desc}</p>
+                  <div className="text-xs font-bold text-gray-700">{f.title}</div>
+                  <div className="text-xs text-gray-400">{f.desc}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Main Content */}
+      {/* ── MAIN CONTENT ── */}
+      <div className="max-w-screen-2xl mx-auto px-4 pb-12">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Filters Sidebar */}
-          <div className={`w-full lg:w-80 ${!showFilters && 'lg:block hidden'}`}>
-            <div className="bg-white rounded-xl shadow-md p-6 sticky top-4">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-bold text-gray-800">Filters</h3>
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="lg:hidden p-1 hover:bg-gray-100 rounded"
-                >
-                  <X size={18} />
-                </button>
+
+          {/* ── SIDEBAR FILTERS ── */}
+          <div className={`w-full lg:w-72 flex-shrink-0 ${!showFilters && 'lg:block hidden'}`}>
+            <div className="bg-white rounded-2xl shadow-sm p-5 sticky top-4">
+              <div className="flex items-center justify-between mb-5">
+                <h3 className="text-base font-bold text-gray-800 flex items-center gap-2">
+                  <Filter size={16} style={{ color: '#1a3fa8' }} /> Filters
+                </h3>
+                <button onClick={() => setShowFilters(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded-lg"><X size={16} /></button>
               </div>
 
               {/* Price Range */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Price Range (per night)</h4>
-                <div className="space-y-3">
-                  <input
-                    type="range"
-                    min="2000"
-                    max="50000"
-                    step="1000"
-                    value={filters.priceRange[1]}
-                    onChange={(e) => setFilters(prev => ({
-                      ...prev,
-                      priceRange: [prev.priceRange[0], parseInt(e.target.value)]
-                    }))}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">{formatPrice(filters.priceRange[0])}</span>
-                    <span className="text-gray-600">{formatPrice(filters.priceRange[1])}</span>
-                  </div>
+              <div className="mb-5">
+                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Price Range</h4>
+                <input type="range" min="2000" max="500000" step="5000" value={filters.priceRange[1]}
+                  onChange={(e) => setFilters(prev => ({ ...prev, priceRange: [prev.priceRange[0], parseInt(e.target.value)] }))}
+                  className="w-full accent-blue-700" />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>{formatPrice(filters.priceRange[0])}</span>
+                  <span className="font-semibold text-gray-700">{formatPrice(filters.priceRange[1])}</span>
                 </div>
               </div>
 
               {/* Star Rating */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Star Rating</h4>
+              <div className="mb-5">
+                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Star Rating</h4>
                 <div className="space-y-2">
                   {starRatings.map(rating => (
-                    <label key={rating} className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={filters.starRating.includes(rating)}
-                        onChange={() => toggleFilter('starRating', rating)}
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-gray-700">
-                        {Array(rating).fill('★').join('')} & above
-                      </span>
+                    <label key={rating} className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" checked={filters.starRating.includes(rating)} onChange={() => toggleFilter('starRating', rating)}
+                        className="w-4 h-4 rounded accent-blue-700" />
+                      <span className="text-yellow-400 text-sm">{'★'.repeat(rating)}</span>
+                      <span className="text-xs text-gray-600">&amp; above</span>
                     </label>
                   ))}
                 </div>
               </div>
 
               {/* Amenities */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Hotel Amenities</h4>
+              <div className="mb-5">
+                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Amenities</h4>
                 <div className="space-y-2">
-                  {amenitiesList.slice(0, 6).map(amenity => {
+                  {amenitiesList.map(amenity => {
                     const Icon = amenity.icon;
                     return (
-                      <label key={amenity.id} className="flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={filters.amenities.includes(amenity.label)}
-                          onChange={() => toggleFilter('amenities', amenity.label)}
-                          className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                        />
-                        <Icon size={16} className="ml-2 mr-2 text-gray-500" />
-                        <span className="text-gray-700">{amenity.label}</span>
+                      <label key={amenity.id} className="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" checked={filters.amenities.includes(amenity.label)} onChange={() => toggleFilter('amenities', amenity.label)}
+                          className="w-4 h-4 rounded accent-blue-700" />
+                        <Icon size={14} className="text-gray-400" />
+                        <span className="text-xs text-gray-600">{amenity.label}</span>
                       </label>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Flight Timings */}
-              <div className="mb-6">
-                <h4 className="font-medium text-gray-700 mb-3">Departure Time</h4>
+              {/* Departure Time */}
+              <div className="mb-5">
+                <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Departure Time</h4>
                 <div className="space-y-2">
-                  {['00:00 - 06:00', '06:00 - 12:00', '12:00 - 18:00', '18:00 - 24:00'].map(slot => (
-                    <label key={slot} className="flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-gray-700">{slot}</span>
+                  {['00:00 – 06:00', '06:00 – 12:00', '12:00 – 18:00', '18:00 – 24:00'].map(slot => (
+                    <label key={slot} className="flex items-center gap-2 cursor-pointer">
+                      <input type="checkbox" className="w-4 h-4 rounded accent-blue-700" />
+                      <span className="text-xs text-gray-600">{slot}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* Apply Filters Button */}
-              <button
-                onClick={searchPackages}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-              >
+              <button onClick={searchPackages}
+                className="w-full py-2.5 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90"
+                style={{ background: 'linear-gradient(135deg, #1a3fa8 0%, #2563eb 100%)' }}>
                 Apply Filters
               </button>
             </div>
           </div>
 
-          {/* Results Section */}
-          <div className="flex-1">
-            {/* Sort and Filter Bar */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowFilters(true)}
-                  className="lg:hidden px-4 py-2 border border-gray-300 rounded-lg bg-white flex items-center gap-2"
-                >
-                  <Filter size={18} />
-                  Filters
+          {/* ── RESULTS ── */}
+          <div className="flex-1 min-w-0">
+            {/* Sort Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+              <div className="flex flex-wrap items-center gap-2">
+                <button onClick={() => setShowFilters(true)}
+                  className="lg:hidden flex items-center gap-2 px-3 py-2 border-2 rounded-xl bg-white text-sm font-medium"
+                  style={{ borderColor: '#e0e4f0' }}>
+                  <Filter size={16} /> Filters
                 </button>
-                <div className="flex flex-wrap gap-2">
-                  {sortOptions.map((option, i) => (
-                    <button
-                      key={i}
-                      className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
-                        sortOption === option
-                          ? 'bg-blue-100 border-blue-300 text-blue-700'
-                          : 'border-gray-300 hover:bg-gray-50'
-                      }`}
-                      onClick={() => {
-                        setSortOption(option);
-                        sortPackages(searchResults, option);
-                      }}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
+                {sortOptions.map((option) => (
+                  <button key={option} onClick={() => { setSortOption(option); setSearchResults(sortPackages(searchResults, option)); }}
+                    className="px-3 py-1.5 text-xs rounded-xl border-2 transition-all font-semibold"
+                    style={sortOption === option
+                      ? { background: '#1a3fa8', borderColor: '#1a3fa8', color: '#fff' }
+                      : { borderColor: '#e0e4f0', background: '#fff', color: '#555' }}>
+                    {option}
+                  </button>
+                ))}
               </div>
-              <div className="text-sm text-gray-600">
-                {searchResults.length} packages found
-              </div>
+              <span className="text-sm font-medium text-gray-500">{searchResults.length} packages found</span>
             </div>
 
-            {/* Results Grid */}
+            {/* Package Cards */}
             <div className="space-y-4">
               {loading ? (
-                // Loading Skeleton
                 Array(3).fill(0).map((_, i) => (
-                  <div key={i} className="bg-white rounded-xl shadow-md p-6 animate-pulse">
+                  <div key={i} className="bg-white rounded-2xl shadow-sm p-6 animate-pulse">
                     <div className="flex gap-4">
-                      <div className="w-48 h-48 bg-gray-200 rounded-lg"></div>
-                      <div className="flex-1">
-                        <div className="h-6 bg-gray-200 rounded w-3/4 mb-3"></div>
-                        <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                      <div className="w-52 h-52 bg-gray-200 rounded-xl"></div>
+                      <div className="flex-1 space-y-3">
+                        <div className="h-5 bg-gray-200 rounded w-3/4"></div>
+                        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
                         <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                        <div className="h-4 bg-gray-200 rounded w-1/3"></div>
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
                 searchResults.map((pkg) => (
-                  <div
-                    key={pkg.id}
-                    className={`bg-white rounded-xl shadow-md border-2 transition-all cursor-pointer ${
-                      selectedPackage === pkg.id
-                        ? 'border-blue-500 shadow-lg'
-                        : 'border-transparent hover:border-blue-300'
-                    }`}
-                    onClick={() => setSelectedPackage(pkg.id)}
-                  >
-                    <div className="p-6">
-                      <div className="flex flex-col lg:flex-row gap-6">
-                        {/* Hotel Image */}
-                        <div className="relative lg:w-64">
-                          <img
-                            src={pkg.hotel.image}
-                            alt={pkg.hotel.name}
-                            className="w-full h-48 lg:h-64 object-cover rounded-lg"
-                          />
-                          <button
-                            onClick={(e) => toggleWishlist(pkg.id, e)}
-                            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:scale-105 transition-transform"
-                          >
-                            <Heart
-                              size={18}
-                              className={wishlist.includes(pkg.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}
-                            />
+                  <div key={pkg.id}
+                    className="bg-white rounded-2xl shadow-sm border-2 transition-all cursor-pointer hover:shadow-md"
+                    style={{ borderColor: selectedPackage === pkg.id ? '#1a3fa8' : 'transparent' }}
+                    onClick={() => setSelectedPackage(pkg.id)}>
+                    <div className="p-5">
+                      <div className="flex flex-col lg:flex-row gap-5">
+                        {/* Image */}
+                        <div className="relative lg:w-56 flex-shrink-0">
+                          <img src={pkg.hotel.image} alt={pkg.hotel.name}
+                            className="w-full h-48 lg:h-full object-cover rounded-xl" style={{ minHeight: 180 }} />
+                          <button onClick={(e) => toggleWishlist(pkg.id, e)}
+                            className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:scale-105 transition-transform">
+                            <Heart size={16} className={wishlist.includes(pkg.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'} />
                           </button>
                           {pkg.badge && (
-                            <div className="absolute top-3 left-3 px-2 py-1 bg-orange-500 text-white text-xs font-medium rounded-full">
+                            <span className={`absolute top-3 left-3 px-2 py-1 text-white text-xs font-bold rounded-lg ${badgeColor(pkg.badge)}`}>
                               {pkg.badge}
-                            </div>
+                            </span>
                           )}
-                          <div className="absolute bottom-3 left-3 px-2 py-1 bg-black bg-opacity-70 text-white text-xs rounded">
+                          <span className="absolute bottom-3 left-3 px-2 py-1 bg-black/70 text-white text-xs font-bold rounded-lg">
                             {pkg.hotel.discount}% OFF
-                          </div>
+                          </span>
                         </div>
 
-                        {/* Package Details */}
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-3">
+                        {/* Details */}
+                        <div className="flex-1 min-w-0">
+                          {/* Hotel Name */}
+                          <div className="flex items-start justify-between gap-3 mb-2">
                             <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h3 className="text-xl font-bold text-gray-800">
-                                  {pkg.hotel.name}
-                                </h3>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className="text-lg font-extrabold text-gray-800">{pkg.hotel.name}</h3>
                                 <span className="text-xl">{pkg.hotel.flag}</span>
                               </div>
-                              <div className="flex items-center gap-2 mb-2">
-                                <div className="flex items-center text-yellow-500">
-                                  {getStarRating(pkg.hotel.starRating)}
-                                </div>
-                                <span className="text-sm text-gray-500">•</span>
-                                <div className="flex items-center gap-1 text-sm">
-                                  <MapPin size={14} className="text-gray-400" />
-                                  <span className="text-gray-600">{pkg.hotel.location}</span>
+                              <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                                <span className="text-yellow-400 text-sm">{getStarRating(pkg.hotel.starRating)}</span>
+                                <span className="text-gray-300">·</span>
+                                <div className="flex items-center gap-1 text-xs text-gray-500">
+                                  <MapPin size={12} className="text-red-400" />
+                                  {pkg.hotel.location}, {pkg.hotel.city}
                                 </div>
                               </div>
                             </div>
-                            <div className="text-right">
-                              <div className="flex items-center gap-1 bg-blue-50 px-2 py-1 rounded">
-                                <Star size={16} className="text-yellow-500 fill-current" />
-                                <span className="font-bold text-gray-800">{pkg.hotel.rating}</span>
-                                <span className="text-xs text-gray-500">({pkg.hotel.reviews.toLocaleString()})</span>
-                              </div>
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl flex-shrink-0" style={{ background: '#eef2ff' }}>
+                              <Star size={14} className="text-yellow-500 fill-yellow-500" />
+                              <span className="text-sm font-bold text-gray-800">{pkg.hotel.rating}</span>
+                              <span className="text-xs text-gray-400">({pkg.hotel.reviews.toLocaleString()})</span>
                             </div>
                           </div>
 
-                          {/* Flight Details */}
-                          <div className="bg-gray-50 p-3 rounded-lg mb-3">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-sm font-medium text-gray-700">Flight Details</span>
-                              <span className="text-xs text-green-600 flex items-center gap-1">
-                                <CheckCircle size={12} />
-                                Non-stop
+                          {/* Flight strip */}
+                          <div className="rounded-xl p-3 mb-3" style={{ background: '#f5f7ff', border: '1px solid #e0e7ff' }}>
+                            <div className="flex items-center justify-between mb-1.5">
+                              <span className="text-xs font-bold text-gray-600 flex items-center gap-1.5">
+                                <Plane size={12} style={{ color: '#1a3fa8' }} /> Flight Details
                               </span>
+                              <span className="text-xs font-semibold" style={{ color: '#22a86e' }}>✓ Non-stop</span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <div>
-                                  <div className="text-sm font-medium">{pkg.flight.outbound.departureTime}</div>
-                                  <div className="text-xs text-gray-500">{searchParams.fromCode}</div>
-                                </div>
-                                <div className="text-center">
-                                  <div className="text-xs text-gray-500">{pkg.flight.outbound.duration}</div>
-                                  <div className="w-16 h-px bg-gray-300 my-1"></div>
-                                  <div className="text-xs text-gray-500">{pkg.flight.outbound.airline}</div>
-                                </div>
-                                <div>
-                                  <div className="text-sm font-medium">{pkg.flight.outbound.arrivalTime}</div>
-                                  <div className="text-xs text-gray-500">{searchParams.toCode}</div>
-                                </div>
+                              <div className="text-center">
+                                <div className="text-sm font-bold text-gray-800">{pkg.flight.outbound.departureTime}</div>
+                                <div className="text-xs text-gray-400">{searchParams.fromCode}</div>
                               </div>
-                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                              <div className="flex-1 mx-3 text-center">
+                                <div className="text-xs text-gray-400">{pkg.flight.outbound.duration}</div>
+                                <div className="flex items-center my-1">
+                                  <div className="flex-1 h-px" style={{ background: '#c7d2fe' }}></div>
+                                  <Plane size={12} className="mx-1" style={{ color: '#1a3fa8' }} />
+                                  <div className="flex-1 h-px" style={{ background: '#c7d2fe' }}></div>
+                                </div>
+                                <div className="text-xs text-gray-400">{pkg.flight.outbound.airline}</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-sm font-bold text-gray-800">{pkg.flight.outbound.arrivalTime}</div>
+                                <div className="text-xs text-gray-400">{searchParams.toCode}</div>
+                              </div>
+                              <span className="ml-4 px-2 py-1 text-xs font-bold rounded-lg" style={{ background: '#dbeafe', color: '#1d4ed8' }}>
                                 {pkg.flight.outbound.class}
                               </span>
                             </div>
                           </div>
 
-                          {/* Hotel Amenities */}
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            {pkg.hotel.amenities.slice(0, 4).map((amenity, idx) => (
-                              <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                                {amenity}
-                              </span>
+                          {/* Amenities */}
+                          <div className="flex flex-wrap gap-1.5 mb-2.5">
+                            {pkg.hotel.amenities.slice(0, 4).map((a, i) => (
+                              <span key={i} className="px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: '#f5f6fa', color: '#555' }}>{a}</span>
                             ))}
                             {pkg.hotel.amenities.length > 4 && (
-                              <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
-                                +{pkg.hotel.amenities.length - 4} more
-                              </span>
+                              <span className="px-2.5 py-1 rounded-lg text-xs font-medium" style={{ background: '#f5f6fa', color: '#888' }}>+{pkg.hotel.amenities.length - 4} more</span>
                             )}
                           </div>
 
-                          {/* Package Includes */}
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="text-xs text-gray-600">Includes:</span>
-                            {pkg.includes.map((item, idx) => (
-                              <span key={idx} className="flex items-center gap-1 text-xs text-gray-600">
-                                <CheckCircle size={12} className="text-green-500" />
-                                {item}
+                          {/* Includes */}
+                          <div className="flex flex-wrap items-center gap-2 mb-3">
+                            {pkg.includes.map((item, i) => (
+                              <span key={i} className="flex items-center gap-1 text-xs" style={{ color: '#22a86e' }}>
+                                <CheckCircle size={11} /> {item}
                               </span>
                             ))}
                           </div>
 
-                          {/* Price and Actions */}
-                          <div className="flex items-end justify-between mt-4 pt-4 border-t">
+                          {/* Price + Actions */}
+                          <div className="flex flex-wrap items-end justify-between gap-3 pt-3" style={{ borderTop: '1px solid #f0f2f8' }}>
                             <div>
-                              <div className="text-xs text-gray-500 mb-1">Package price for {pkg.nights} nights</div>
+                              <div className="text-xs text-gray-400 mb-0.5">Package for {pkg.nights} nights</div>
                               <div className="flex items-baseline gap-2">
-                                <span className="text-2xl font-bold text-blue-600">
-                                  {formatPrice(pkg.packagePrice)}
-                                </span>
-                                <span className="text-sm text-gray-500 line-through">
-                                  {formatPrice(pkg.originalPrice)}
-                                </span>
+                                <span className="text-2xl font-extrabold" style={{ color: '#1a3fa8' }}>{formatPrice(pkg.packagePrice)}</span>
+                                <span className="text-sm text-gray-400 line-through">{formatPrice(pkg.originalPrice)}</span>
                               </div>
-                              <div className="flex items-center gap-1 mt-1">
-                                <span className="text-xs text-green-600 font-medium">
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: '#dcfce7', color: '#15803d' }}>
                                   Save {formatPrice(pkg.totalSavings)}
                                 </span>
-                                <span className="text-xs text-gray-500">•</span>
-                                <span className="text-xs text-gray-500">
-                                  {pkg.availableRooms} rooms left
-                                </span>
+                                <span className="text-xs text-orange-500 font-semibold">{pkg.availableRooms} rooms left</span>
                               </div>
                             </div>
-                            
                             <div className="flex gap-2">
-                              <button
-                                onClick={(e) => toggleDetails(pkg.id, e)}
-                                className="px-4 py-2 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors text-sm"
-                              >
+                              <button onClick={(e) => toggleDetails(pkg.id, e)}
+                                className="px-4 py-2 rounded-xl text-sm font-semibold border-2 transition-all hover:bg-blue-50"
+                                style={{ borderColor: '#1a3fa8', color: '#1a3fa8' }}>
                                 Details
                               </button>
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleBookNow(pkg);
-                                }}
-                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                              >
+                              <button onClick={(e) => handleBookNow(pkg, e)}
+                                className="px-6 py-2 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90 shadow-md"
+                                style={{ background: 'linear-gradient(135deg, #c0392b 0%, #e74c3c 100%)' }}>
                                 Book Now
                               </button>
                             </div>
@@ -1195,50 +725,42 @@ const FlightHotels = () => {
                         </div>
                       </div>
 
-                      {/* Additional Details */}
+                      {/* Expanded Details */}
                       {showDetails[pkg.id] && (
-                        <div className="mt-6 pt-6 border-t">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="mt-5 pt-5" style={{ borderTop: '1px solid #f0f2f8' }}>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
-                              <h4 className="font-medium text-gray-800 mb-3">Flight Details</h4>
-                              <div className="space-y-3">
-                                <div className="bg-gray-50 p-3 rounded">
-                                  <div className="flex justify-between mb-2">
-                                    <span className="text-sm font-medium">Outbound Flight</span>
-                                    <span className="text-xs text-gray-500">{pkg.flight.outbound.flightNumber}</span>
+                              <h4 className="text-sm font-bold text-gray-700 mb-3">Flight Information</h4>
+                              <div className="space-y-2">
+                                {[{ label: 'Outbound', f: pkg.flight.outbound }, { label: 'Return', f: pkg.flight.inbound }].map(({ label, f }) => (
+                                  <div key={label} className="p-3 rounded-xl" style={{ background: '#f5f7ff' }}>
+                                    <div className="flex justify-between mb-1">
+                                      <span className="text-xs font-bold text-gray-600">{label} Flight</span>
+                                      <span className="text-xs text-gray-400">{f.flightNumber}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs text-gray-600">
+                                      <span>Dep: {f.departureTime}</span>
+                                      <span>Arr: {f.arrivalTime}</span>
+                                      <span>{f.duration}</span>
+                                    </div>
                                   </div>
-                                  <div className="flex justify-between text-sm">
-                                    <span>Departure: {pkg.flight.outbound.departureTime}</span>
-                                    <span>Arrival: {pkg.flight.outbound.arrivalTime}</span>
-                                  </div>
-                                </div>
-                                <div className="bg-gray-50 p-3 rounded">
-                                  <div className="flex justify-between mb-2">
-                                    <span className="text-sm font-medium">Return Flight</span>
-                                    <span className="text-xs text-gray-500">{pkg.flight.inbound.flightNumber}</span>
-                                  </div>
-                                  <div className="flex justify-between text-sm">
-                                    <span>Departure: {pkg.flight.inbound.departureTime}</span>
-                                    <span>Arrival: {pkg.flight.inbound.arrivalTime}</span>
-                                  </div>
-                                </div>
+                                ))}
                               </div>
                             </div>
-                            
                             <div>
-                              <h4 className="font-medium text-gray-800 mb-3">Hotel Policies</h4>
+                              <h4 className="text-sm font-bold text-gray-700 mb-3">Hotel Policies</h4>
                               <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm">
-                                  <Clock size={16} className="text-gray-400" />
-                                  <span>Check-in: {pkg.hotel.checkIn} | Check-out: {pkg.hotel.checkOut}</span>
+                                <div className="flex items-center gap-2 text-xs text-gray-600">
+                                  <Clock size={14} className="text-gray-400" />
+                                  Check-in: {pkg.hotel.checkIn} · Check-out: {pkg.hotel.checkOut}
                                 </div>
-                                <div className="flex items-center gap-2 text-sm">
-                                  <ShieldCheck size={16} className="text-green-500" />
-                                  <span>Free cancellation up to 24 hours before check-in</span>
+                                <div className="flex items-center gap-2 text-xs text-gray-600">
+                                  <ShieldCheck size={14} style={{ color: '#22a86e' }} />
+                                  Free cancellation up to 24 hours before check-in
                                 </div>
-                                <div className="flex items-center gap-2 text-sm">
-                                  <Award size={16} className="text-blue-500" />
-                                  <span>Earn 2,500 reward points with this booking</span>
+                                <div className="flex items-center gap-2 text-xs text-gray-600">
+                                  <Award size={14} style={{ color: '#1a3fa8' }} />
+                                  Earn 2,500 reward points with this booking
                                 </div>
                               </div>
                             </div>
@@ -1251,30 +773,15 @@ const FlightHotels = () => {
               )}
             </div>
 
-            {/* No Results */}
+            {/* No results */}
             {!loading && searchResults.length === 0 && (
-              <div className="bg-white rounded-xl shadow-md p-12 text-center">
-                <div className="mb-4">
-                  <AlertCircle size={48} className="mx-auto text-gray-400" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">No packages found</h3>
-                <p className="text-gray-600 mb-6">
-                  Try adjusting your filters or search criteria
-                </p>
-                <button
-                  onClick={() => {
-                    setFilters({
-                      priceRange: [2000, 50000],
-                      starRating: [],
-                      hotelType: [],
-                      amenities: [],
-                      flightTimings: [],
-                      airlines: []
-                    });
-                    searchPackages();
-                  }}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
+              <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+                <AlertCircle size={48} className="mx-auto text-gray-300 mb-4" />
+                <h3 className="text-lg font-bold text-gray-700 mb-2">No packages found</h3>
+                <p className="text-sm text-gray-500 mb-6">Try adjusting your filters or search criteria</p>
+                <button onClick={() => { setFilters({ priceRange: [2000, 50000], starRating: [], hotelType: [], amenities: [], flightTimings: [], airlines: [] }); searchPackages(); }}
+                  className="px-6 py-2.5 rounded-xl text-white text-sm font-bold"
+                  style={{ background: '#1a3fa8' }}>
                   Clear Filters
                 </button>
               </div>
@@ -1282,98 +789,79 @@ const FlightHotels = () => {
           </div>
         </div>
 
-        {/* Trending Packages Section */}
-<div className="mt-12">
-  <div className="flex items-center justify-between mb-6">
-    <div>
-      <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-        <Award size={24} className="text-blue-600" />
-        Trending Packages
-      </h2>
-      <p className="text-gray-600">Most booked flight + hotel combinations</p>
-    </div>
-    <button className="text-blue-600 text-sm font-medium hover:underline">
-      View all →
-    </button>
-  </div>
-
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-    {mockPackages.slice(0, 4).map((pkg) => (
-      <div key={pkg.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-        <div className="relative h-40">
-          <img 
-            src={pkg.hotel.image} 
-            alt={pkg.hotel.name} 
-            className="w-full h-full object-cover" 
-          />
-          <div className="absolute top-3 right-3 px-2 py-1 bg-white rounded text-xs font-medium shadow">
-            ⭐ {pkg.hotel.rating}
-          </div>
-          <div className="absolute top-3 left-3 px-2 py-1 bg-orange-500 text-white rounded text-xs font-medium">
-            {pkg.badge}
-          </div>
-        </div>
-        <div className="p-4">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="font-bold text-gray-800 truncate">{pkg.hotel.name}</h3>
-            <span className="text-lg">{pkg.hotel.flag}</span>
-          </div>
-          <p className="text-sm text-gray-600 mb-2">
-            {pkg.hotel.city} • {pkg.nights} nights
-          </p>
-          <div className="flex items-center justify-between mb-3">
+        {/* ── TRENDING PACKAGES ── */}
+        <div className="mt-14">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <span className="text-xl font-bold text-blue-600">
-                {formatPrice(pkg.packagePrice)}
-              </span>
-              <span className="text-xs text-green-600 ml-2">
-                Save {formatPrice(pkg.totalSavings)}
-              </span>
+              <h2 className="text-2xl font-extrabold text-gray-800 flex items-center gap-2">
+                <TrendingUp size={24} style={{ color: '#1a3fa8' }} /> Trending Packages
+              </h2>
+              <p className="text-sm text-gray-500 mt-0.5">Most booked flight + hotel combinations</p>
             </div>
+            <button className="text-sm font-semibold" style={{ color: '#c0392b' }}>View all →</button>
           </div>
-          <button
-            onClick={() => handleViewPackage(pkg)}
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-          >
-            View Package
-          </button>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
 
-        {/* Testimonials Section */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <ThumbsUp size={24} className="text-blue-600" />
-            What Our Travelers Say
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-white rounded-xl shadow-md p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-medium text-gray-800">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-500">{testimonial.trip}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {mockPackages.slice(0, 4).map((pkg) => (
+              <div key={pkg.id} className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                <div className="relative h-44">
+                  <img src={pkg.hotel.image} alt={pkg.hotel.name} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)' }} />
+                  <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-white/90 rounded-lg text-xs font-bold text-gray-700">
+                    <Star size={12} className="text-yellow-500 fill-yellow-500" /> {pkg.hotel.rating}
                   </div>
-                  <div className="ml-auto flex text-yellow-500">
-                    {Array(testimonial.rating).fill('★').join('')}
+                  {pkg.badge && (
+                    <span className={`absolute top-3 left-3 px-2 py-1 text-white text-xs font-bold rounded-lg ${badgeColor(pkg.badge)}`}>
+                      {pkg.badge}
+                    </span>
+                  )}
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <div className="text-white font-bold text-sm truncate">{pkg.hotel.name} {pkg.hotel.flag}</div>
+                    <div className="text-white/80 text-xs">{pkg.hotel.city} · {pkg.nights} nights</div>
                   </div>
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.comment}"</p>
+                <div className="p-4">
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="text-xl font-extrabold" style={{ color: '#1a3fa8' }}>{formatPrice(pkg.packagePrice)}</span>
+                    <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: '#dcfce7', color: '#15803d' }}>
+                      Save {formatPrice(pkg.totalSavings)}
+                    </span>
+                  </div>
+                  <button onClick={() => handleViewPackage(pkg)}
+                    className="w-full py-2 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg, #1a3fa8 0%, #2563eb 100%)' }}>
+                    View Package
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        
+        {/* ── TESTIMONIALS ── */}
+        <div className="mt-14">
+          <h2 className="text-2xl font-extrabold text-gray-800 mb-6 flex items-center gap-2">
+            <ThumbsUp size={24} style={{ color: '#1a3fa8' }} /> What Our Travelers Say
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { id: 1, name: "Sarah Johnson", trip: "London → Paris", rating: 5, comment: "Amazing package! The hotel was perfect and flights were on time. Saved over ₹8,000!", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80" },
+              { id: 2, name: "Michael Chen", trip: "New York → Miami", rating: 5, comment: "Best booking experience ever. The app is so easy to use and customer service is top notch.", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" }
+            ].map((t) => (
+              <div key={t.id} className="bg-white rounded-2xl shadow-sm p-5">
+                <div className="flex items-center gap-4 mb-3">
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                  <div>
+                    <div className="font-bold text-gray-800 text-sm">{t.name}</div>
+                    <div className="text-xs text-gray-400">{t.trip}</div>
+                  </div>
+                  <div className="ml-auto text-yellow-400 text-sm">{'★'.repeat(t.rating)}</div>
+                </div>
+                <p className="text-sm text-gray-600 italic">"{t.comment}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

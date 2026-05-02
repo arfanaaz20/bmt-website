@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import "./App.css";
+// import "./components/i18n";
+// import "./i18n";
+import "./components/i18n";
 import ScrollToTop from "./pages/ScrollToTop.js";
 
 /* COMMON */
@@ -11,7 +14,7 @@ import Footer from "./components/Footer";
 /* PAGES */
 import Hero from "./components/Hero";
 import ExploreMoreBar from "./components/ExploreMoreBar";
-import AirlinePartners from "./components/AirlinePartners";
+// import AirlinePartners from "./components/AirlinePartners";
 import InfoSection from "./components/InfoSection";
 import MegaLinksSection from "./components/MegaLinksSection";
 import VisaSection from "./pages/visa/VisaSection";
@@ -31,6 +34,7 @@ import Signup from "./pages/Signup";
 import Bus from "./pages/Bus";
 import BookBus from "./pages/BookBus";
 import Cab from "./pages/Cab";
+import CabRegistration from "./pages/CabRegistration";
 import CabDetails from "./pages/CabDetails";
 import ListProperty from "./pages/ListProperty";
 import PNRStatus from "./pages/PNRStatus";
@@ -69,9 +73,7 @@ import TravelInsurance from './pages/TravelInsurance';
 import ServicesShowcase from './pages/ServicesShowcase';
 import CabBooking from "./pages/CabBooking.jsx";
 
-
-
-/* CONTEXT - IMPORT AuthProvider AND AuthContext */
+/* CONTEXT */
 import { AuthProvider, AuthContext } from "./contexts/AuthContext";
 import TravelInsuranceBooking from "./pages/TravelInsuranceBooking.jsx";
 import DarshanList from "./pages/DarshanList.jsx";
@@ -79,33 +81,29 @@ import DarshanDetail from "./pages/DarshanDetail.jsx";
 import OffersPage from "./components/Offers.jsx";
 import VendorOnboarding from "./pages/Vendoronboarding .jsx";
 
+import HotelDetails from "./pages/HotelDetails";
+import BookHotel from "./pages/BookHotel";
+import { useWindow } from "./components/customWindowAdjust/useWindow.jsx";
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const auth = useContext(AuthContext);
-  
-  if (!auth) {
-    return null;
-  }
-  
+  if (!auth) return null;
   const { isAuthenticated } = auth;
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
   return children;
 };
 
 // Layout Component for conditional footer
 const PageLayout = ({ children }) => {
+  const { isMobile } = useWindow();
   const location = useLocation();
   const noFooterRoutes = ['/user-dashboard', '/login', '/signup'];
   const hideFooter = noFooterRoutes.includes(location.pathname);
-  
   return (
     <>
       {children}
-      {!hideFooter && <Footer />}
+      {!hideFooter && !isMobile && <Footer />}
     </>
   );
 };
@@ -115,44 +113,22 @@ function AppContent() {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const auth = useContext(AuthContext);
-  
   const isAuthenticated = auth?.isAuthenticated || false;
 
-  // Detect mobile screen
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-      
-      // Desktop: auto open sidebar, Mobile: auto close sidebar
-      if (!mobile) {
-        setSidebarOpen(true);
-      } else {
-        setSidebarOpen(false);
-      }
+      setSidebarOpen(!mobile);
     };
-    
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    
     return () => window.removeEventListener("resize", checkMobile);
-  }, []); // Removed sidebarOpen dependency to prevent loops
+  }, []);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const closeSidebar = () => {
-    if (sidebarOpen) {
-      setSidebarOpen(false);
-    }
-  };
-
-  const handleBackdropClick = () => {
-    if (sidebarOpen && isMobile) {
-      setSidebarOpen(false);
-    }
-  };
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const closeSidebar = () => { if (sidebarOpen) setSidebarOpen(false); };
+  const handleBackdropClick = () => { if (sidebarOpen && isMobile) setSidebarOpen(false); };
 
   useEffect(() => {
     if (isMobile && sidebarOpen) {
@@ -162,134 +138,132 @@ function AppContent() {
       document.body.style.overflow = "auto";
       document.body.classList.remove("sidebar-open");
     }
-    
     return () => {
       document.body.style.overflow = "auto";
       document.body.classList.remove("sidebar-open");
     };
   }, [sidebarOpen, isMobile]);
 
-  // Hide sidebar on auth pages
   const authPages = ['/login', '/signup'];
   const hideSidebar = authPages.includes(location.pathname);
 
   return (
     <div className={`app-wrapper ${sidebarOpen && isMobile ? 'sidebar-open' : ''}`}>
-      {!hideSidebar && <Navbar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />}
-      
-      {/* Mobile Backdrop */}
+      {!hideSidebar && (
+        <Navbar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
+      )}
+
       {sidebarOpen && isMobile && !hideSidebar && (
-        <div 
-          className="sidebar-backdrop" 
+        <div
+          className="sidebar-backdrop"
           onClick={handleBackdropClick}
           aria-hidden="true"
         />
       )}
-      
-      <div className={`content-layout ${hideSidebar ? 'no-sidebar' : 'md:mt-[80px]'}`}>
+
+      <div className={`content-layout ${hideSidebar ? 'no-sidebar' : 'mt-[80px]'}`}>
         {!hideSidebar && (
-          <Sidebar 
-            open={sidebarOpen} 
-            setOpen={setSidebarOpen} 
+          <Sidebar
+            open={sidebarOpen}
+            setOpen={setSidebarOpen}
             onClose={closeSidebar}
           />
         )}
-        
-        <main 
+
+        <main
           className={`main-body ${sidebarOpen ? 'sidebar-open' : ''} ${hideSidebar ? 'full-width' : ''}`}
-          onClick={() => {
-            // Close sidebar when clicking on main content on mobile
-            if (isMobile && sidebarOpen) {
-              setSidebarOpen(false);
-            }
-          }}
+          onClick={() => { if (isMobile && sidebarOpen) setSidebarOpen(false); }}
         >
           <div className="page-content">
             <Routes>
-              {/* Public Routes */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              
-              {/* Home Route */}
+
+              {/* HOME */}
               <Route path="/" element={
                 <PageLayout>
                   <Hero />
-                  <ExploreMoreBar />
-                  <NewUserExclusive />
-                  <BannerCarousel />
-                  <PlacesCarousel />
-                  <VisaSection />
-                  <NightClubSection />
-                  <AirlinePartners />
-                  <InfoSection />
-                  <MegaLinksSection />
+                  {!isMobile && (
+                    <>
+                      <ExploreMoreBar />
+                      <NewUserExclusive />
+                      <BannerCarousel />
+                      <PlacesCarousel />
+                      <VisaSection />
+                      {/* <NightClubSection /> */}
+                      {/* <AirlinePartners /> */}
+                      <InfoSection />
+                      <MegaLinksSection />
+                    </>
+                  )}
                 </PageLayout>
               } />
-              
-              {/* Other Public Routes with Layout */}
-              <Route path="/visa" element={<PageLayout><VisaSection /></PageLayout>} />
-              <Route path="/cruise" element={<PageLayout><CruiseSection /></PageLayout>} />
-              <Route path="/night-club" element={<PageLayout><NightClubSection /></PageLayout>} />
-              <Route path="/hotels&Flights" element={<PageLayout><FlightHotel/></PageLayout>} />
-              <Route path="/tours" element={<PageLayout><ToursAttractions /></PageLayout>} />
-              <Route path="/flight-status" element={<PageLayout><FlightStatusPage /></PageLayout>} />
-              <Route path="/hotels" element={<PageLayout><Hotels /></PageLayout>} />
-              <Route path="/flights" element={<PageLayout><Flights /></PageLayout>} />
-              <Route path="/train" element={<PageLayout><Train /></PageLayout>} />
-              <Route path="/holiday" element={<PageLayout><Holiday /></PageLayout>} />
-              <Route path="/trip-planner" element={<PageLayout><TripPlanner /></PageLayout>} />
-              <Route path="/gift" element={<PageLayout><GiftCard /></PageLayout>} />
-              <Route path="/invite" element={<PageLayout><InviteEarn /></PageLayout>} />
+
+              {/* TRAVEL */}
+              <Route path="/visa"             element={<PageLayout><VisaSection /></PageLayout>} />
+              <Route path="/cruise"           element={<PageLayout><CruiseSection /></PageLayout>} />
+              <Route path="/night-club"       element={<PageLayout><NightClubSection /></PageLayout>} />
+              <Route path="/hotels&Flights"   element={<PageLayout><FlightHotel /></PageLayout>} />
+              <Route path="/tours"            element={<PageLayout><ToursAttractions /></PageLayout>} />
+              <Route path="/flight-status"    element={<PageLayout><FlightStatusPage /></PageLayout>} />
+              <Route path="/hotels"           element={<PageLayout><Hotels /></PageLayout>} />
+              <Route path="/flights"          element={<PageLayout><Flights /></PageLayout>} />
+              <Route path="/train"            element={<PageLayout><Train /></PageLayout>} />
+              <Route path="/holiday"          element={<PageLayout><Holiday /></PageLayout>} />
+              <Route path="/trip-planner"     element={<PageLayout><TripPlanner /></PageLayout>} />
+              <Route path="/gift"             element={<PageLayout><GiftCard /></PageLayout>} />
+              <Route path="/invite"           element={<PageLayout><InviteEarn /></PageLayout>} />
               <Route path="/list-your-property" element={<PageLayout><ListProperty /></PageLayout>} />
-              <Route path="/pnr" element={<PageLayout><PNRStatus /></PageLayout>} />
-              <Route path="/bus" element={<PageLayout><Bus /></PageLayout>} />
-              <Route path="/bus/:id" element={<PageLayout><BookBus /></PageLayout>} />
-              <Route path="/cab" element={<PageLayout><Cab /></PageLayout>} />
-              <Route path="/cab/:id" element={<PageLayout><CabDetails /></PageLayout>} />
-              <Route path="/homestay" element={<PageLayout><HotelAndHomeStay /></PageLayout>} />
-              <Route path="/property/:id" element={<PageLayout><HotelAndHomeStayDetail /></PageLayout>} />
-              <Route path="/hotel/:id" element={<PageLayout><HotelDetail /></PageLayout>} />
-              <Route path="/cruise/:id" element={<PageLayout><CruiseBooking /></PageLayout>} />
-              <Route path="/select-seats" element={<PageLayout><SeatSelectionPage /></PageLayout>} />
-              <Route path="/payment" element={<PageLayout><PaymentPage /></PageLayout>} />
+              <Route path="/pnr"              element={<PageLayout><PNRStatus /></PageLayout>} />
+              <Route path="/bus"              element={<PageLayout><Bus /></PageLayout>} />
+              <Route path="/bus/:id"          element={<PageLayout><BookBus /></PageLayout>} />
+              <Route path="/cab"              element={<PageLayout><Cab /></PageLayout>} />
+              <Route path="/cab-registration" element={<PageLayout><CabRegistration /></PageLayout>} />
+              <Route path="/cab/:id"          element={<PageLayout><CabDetails /></PageLayout>} />
+              <Route path="/cab-detail/:id"   element={<PageLayout><CabDetails /></PageLayout>} />
+              <Route path="/cab-booking"      element={<PageLayout><CabBooking /></PageLayout>} />
+              <Route path="/homestay"         element={<PageLayout><HotelAndHomeStay /></PageLayout>} />
+              <Route path="/property/:id"     element={<PageLayout><HotelAndHomeStayDetail /></PageLayout>} />
+
+              {/*
+                FIX: HomestayVillaDetail.jsx does NOT exist in your project.
+                Reusing HotelAndHomeStayDetail here instead — same purpose.
+                If you create HomestayVillaDetail.jsx later, import it and swap it in.
+              */}
+              <Route path="/homestay-details/:id" element={<PageLayout><HotelAndHomeStayDetail /></PageLayout>} />
+
+              <Route path="/hotel/:id"        element={<PageLayout><HotelDetail /></PageLayout>} />
+              <Route path="/hotel-details/:id" element={<HotelDetails />} />
+              <Route path="/book/:id"         element={<BookHotel />} />
+              <Route path="/cruise/:id"       element={<PageLayout><CruiseBooking /></PageLayout>} />
+              <Route path="/select-seats"     element={<PageLayout><SeatSelectionPage /></PageLayout>} />
+              <Route path="/payment"          element={<PageLayout><PaymentPage /></PageLayout>} />
               <Route path="/booking-confirmation" element={<PageLayout><BookingConfirmation /></PageLayout>} />
-              <Route path="/package-details" element={<PageLayout><PackageDetails /></PageLayout>} />
+              <Route path="/package-details"  element={<PageLayout><PackageDetails /></PageLayout>} />
               <Route path="/trending-package-details" element={<PageLayout><TrendingPackageDetails /></PageLayout>} />
-              <Route path="/booking-details" element={<PageLayout><BookingDetailsPage /></PageLayout>} />
-              
-              {/* Support Routes */}
-              <Route path="/support" element={<PageLayout><SupportPage /></PageLayout>} />
-              <Route path="/faq" element={<PageLayout><FAQPage /></PageLayout>} />
-              <Route path="/cancellation" element={<PageLayout><CancellationPage /></PageLayout>} />
-              <Route path="/refund-policy" element={<PageLayout><RefundPolicyPage /></PageLayout>} />
-              <Route path="/contact-us" element={<PageLayout><ContactUsPage /></PageLayout>} />
-              
-              {/* Company Routes */}
-              <Route path="/about-us" element={<PageLayout><AboutUsPage /></PageLayout>} />
-              <Route path="/careers" element={<PageLayout><CareersPage /></PageLayout>} />
-              <Route path="/privacy-policy" element={<PageLayout><PrivacyPolicyPage /></PageLayout>} />
+              <Route path="/booking-details"  element={<PageLayout><BookingDetailsPage /></PageLayout>} />
+              <Route path="/darshan"          element={<PageLayout><DarshanList /></PageLayout>} />
+              <Route path="/darshan/:id"      element={<PageLayout><DarshanDetail /></PageLayout>} />
+              <Route path="/offers"           element={<PageLayout><OffersPage /></PageLayout>} />
+              <Route path="/vendor-onboarding" element={<PageLayout><VendorOnboarding /></PageLayout>} />
+
+              {/* SUPPORT */}
+              <Route path="/support"          element={<PageLayout><SupportPage /></PageLayout>} />
+              <Route path="/faq"              element={<PageLayout><FAQPage /></PageLayout>} />
+              <Route path="/cancellation"     element={<PageLayout><CancellationPage /></PageLayout>} />
+              <Route path="/refund-policy"    element={<PageLayout><RefundPolicyPage /></PageLayout>} />
+              <Route path="/contact-us"       element={<PageLayout><ContactUsPage /></PageLayout>} />
+
+              {/* COMPANY */}
+              <Route path="/about-us"         element={<PageLayout><AboutUsPage /></PageLayout>} />
+              <Route path="/careers"          element={<PageLayout><CareersPage /></PageLayout>} />
+              <Route path="/privacy-policy"   element={<PageLayout><PrivacyPolicyPage /></PageLayout>} />
               <Route path="/terms-and-conditions" element={<PageLayout><TermsConditionsPage /></PageLayout>} />
-              <Route path="/blog" element={<PageLayout><BlogPage /></PageLayout>} />
-              <Route path="/blog/:id" element={<PageLayout><BlogPostPage /></PageLayout>} />
-              <Route path="/travel-insurance" element={<PageLayout><TravelInsurance /></PageLayout>} />
-              <Route path="/services" element={<PageLayout><ServicesShowcase /></PageLayout>} />
+              <Route path="/blog"             element={<PageLayout><BlogPage /></PageLayout>} />
+              <Route path="/blog/:id"         element={<PageLayout><BlogPostPage /></PageLayout>} />
               <Route path="/travel-insurance" element={<PageLayout><TravelInsurance /></PageLayout>} />
               <Route path="/travel-insurance-booking" element={<PageLayout><TravelInsuranceBooking /></PageLayout>} />
-              <Route path="/cab-detail/:id" element={<PageLayout><CabDetails /></PageLayout>} />
-        <Route path="/cab-booking" element={<PageLayout><CabBooking /></PageLayout>} />
-        <Route path="/darshan" element={<PageLayout><DarshanList /></PageLayout>} />
-        <Route path="/darshan/:id" element={<PageLayout><DarshanDetail /></PageLayout>} />
-        <Route path="/offers" element={<PageLayout><OffersPage /></PageLayout>} />
-        <Route path="/vendor-onboarding" element={<PageLayout><VendorOnboarding /></PageLayout>} />
-              
-              {/* Protected Route - UserDashboard */}
-              <Route path="/user-dashboard" element={
-                <ProtectedRoute>
-                  <UserDashboard />
-                </ProtectedRoute>
-              } />
-              
-              {/* Catch all - 404 */}
+              <Route path="/services"         element={<PageLayout><ServicesShowcase /></PageLayout>} />
+
+              {/* 404 */}
               <Route path="*" element={
                 <div className="min-h-screen flex items-center justify-center">
                   <div className="text-center">
@@ -301,6 +275,7 @@ function AppContent() {
                   </div>
                 </div>
               } />
+
             </Routes>
           </div>
         </main>
@@ -319,14 +294,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-

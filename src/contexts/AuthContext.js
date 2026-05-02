@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/auth';
+import React, { createContext, useState, useEffect } from "react";
+import { authAPI } from "../services/auth";
 
 export const AuthContext = createContext();
 
@@ -11,18 +11,35 @@ export const AuthProvider = ({ children }) => {
   // Check for existing authentication on mount
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('authToken');
-      const storedUserData = localStorage.getItem('userData');
+      const token = localStorage.getItem("authToken");
+      const storedUserData = JSON.stringify(localStorage.getItem("userData"));
 
-      if (token && storedUserData) {
+      if (token && storedUserData && storedUserData !== "undefined") {
         const result = await authAPI.validateToken(token);
         if (result.valid) {
-          setUserData(JSON.parse(storedUserData));
+          try {
+            const parsedUser =
+              storedUserData && storedUserData !== "undefined"
+                ? JSON.parse(storedUserData)
+                : null;
+
+            setUserData(parsedUser);
+            setIsAuthenticated(true);
+          } catch (error) {
+            console.error("Invalid userData in localStorage", error);
+
+            // cleanup corrupted data
+            localStorage.removeItem("userData");
+            localStorage.removeItem("authToken");
+
+            setUserData(null);
+            setIsAuthenticated(false);
+          }
           setIsAuthenticated(true);
         } else {
           // Clear invalid tokens
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('userData');
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("userData");
         }
       }
       setLoading(false);
@@ -32,8 +49,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (token, user) => {
-    localStorage.setItem('authToken', token);
-    localStorage.setItem('userData', JSON.stringify(user));
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("userData", JSON.stringify(user));
     setUserData(user);
     setIsAuthenticated(true);
   };
@@ -41,8 +58,8 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     setLoading(true);
     await authAPI.logout();
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userData');
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userData");
     setIsAuthenticated(false);
     setUserData(null);
     setLoading(false);
@@ -51,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   const updateUser = (updatedData) => {
     const newData = { ...userData, ...updatedData };
     setUserData(newData);
-    localStorage.setItem('userData', JSON.stringify(newData));
+    localStorage.setItem("userData", JSON.stringify(newData));
   };
 
   if (loading) {
@@ -66,13 +83,15 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{
-      isAuthenticated,
-      user: userData,
-      login,
-      logout,
-      updateUser
-    }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user: userData,
+        login,
+        logout,
+        updateUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

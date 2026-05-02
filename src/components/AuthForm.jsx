@@ -1,51 +1,81 @@
-import React, { useState, useContext } from 'react';
-import { 
-  Mail, Lock, User, Key, LogIn, UserPlus, 
-  AlertCircle, Eye, EyeOff, Plane, X
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
-import { authAPI } from '../services/auth';
+import React, { useState, useContext } from "react";
+import {
+  Mail,
+  Lock,
+  User,
+  Key,
+  LogIn,
+  UserPlus,
+  AlertCircle,
+  Eye,
+  EyeOff,
+  Plane,
+  X,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
+import { authAPI } from "../services/auth";
+import { signUpAuthAPI } from "../api/signUpAuth";
+import { loginAuthAPI } from "../api/loginAuth";
+import { Modal } from "antd";
 
-const AuthForm = ({ onClose }) => {
+const AuthForm = ({ onClose,open }) => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
       let result;
       if (isLogin) {
-        result = await authAPI.login(formData.email, formData.password);
+        result = await loginAuthAPI({
+          email: formData.email.toLowerCase().trim(),
+          password: formData.password.trim(),
+        });
+        const data = result.data;
+
+        result = {
+          success: true,
+          token: data?.data?.token,
+          user: {
+            userName:data?.data?.name,
+            email:data?.data?.email,
+          },
+        };
+
+        console.log(result,'result heree ',data,'data heree ')
+                login(result.token, result.user);
+
+        onClose()
       } else {
         if (formData.password !== formData.confirmPassword) {
-          throw new Error('Passwords do not match');
+          throw new Error("Passwords do not match");
         }
-        result = await authAPI.signup(formData.name, formData.email, formData.password);
+        result = await signUpAuthAPI( {name: formData.name, email: formData.email, password: formData.password});
+        console.log(result,'result heree ')
+        if (result.status===201) {
+        setIsLogin(true);
+      } 
       }
-
-      if (result.success) {
-        login(result.token, result.user);
-        if (onClose) onClose();
-        navigate('/user-dashboard');
-      } else {
-        setError(result.error);
-      }
+      // console.log(result,'result heree ')
+      // else {
+      //   setError(result.error);
+      // }
     } catch (err) {
-      setError(err.message || 'Something went wrong');
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -54,21 +84,30 @@ const AuthForm = ({ onClose }) => {
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+     <Modal
+        open={open}
+        onCancel={onClose}
+        footer={null}
+          closable={false}
+        width={400}
+      >
+    {/* <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"> */}
+      <div className=" w-full max-w-md max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+        <div className=" border-b border-gray-200 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">
-              {isLogin ? 'Welcome Back!' : 'Join Travel Hub'}
+              {isLogin ? "Welcome Back!" : "Join Travel Hub"}
             </h2>
             <p className="text-gray-600 text-sm mt-1">
-              {isLogin ? 'Sign in to continue your journey' : 'Create your account to get started'}
+              {isLogin
+                ? "Sign in to continue your journey"
+                : "Create your account to get started"}
             </p>
           </div>
           {onClose && (
@@ -82,7 +121,7 @@ const AuthForm = ({ onClose }) => {
         </div>
 
         {/* Form */}
-        <div className="p-6">
+        <div className="">
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
               <div className="flex items-center gap-2 text-red-600">
@@ -108,7 +147,10 @@ const AuthForm = ({ onClose }) => {
                     placeholder="Enter your full name"
                     required={!isLogin}
                   />
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <User
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size={20}
+                  />
                 </div>
               </div>
             )}
@@ -127,7 +169,10 @@ const AuthForm = ({ onClose }) => {
                   placeholder="Enter your email"
                   required
                 />
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Mail
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
               </div>
             </div>
 
@@ -145,7 +190,10 @@ const AuthForm = ({ onClose }) => {
                   placeholder="Enter your password"
                   required
                 />
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Lock
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -171,7 +219,10 @@ const AuthForm = ({ onClose }) => {
                     placeholder="Confirm your password"
                     required={!isLogin}
                   />
-                  <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <Key
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    size={20}
+                  />
                 </div>
               </div>
             )}
@@ -184,34 +235,39 @@ const AuthForm = ({ onClose }) => {
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  {isLogin ? 'Signing in...' : 'Creating account...'}
+                  {isLogin ? "Signing in..." : "Creating account..."}
                 </div>
               ) : (
                 <div className="flex items-center justify-center gap-2">
                   {isLogin ? <LogIn size={20} /> : <UserPlus size={20} />}
-                  {isLogin ? 'Sign In' : 'Sign Up'}
+                  {isLogin ? "Sign In" : "Sign Up"}
                 </div>
               )}
             </button>
+            <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+              <p className="text-gray-600">
+                {isLogin
+                  ? "Don't have an account?"
+                  : "Already have an account?"}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setError("");
+                    // handleSubmit()
+                  }}
+                  className="ml-2 text-blue-600 font-semibold hover:text-blue-800"
+                >
+                  {isLogin ? "Sign Up" : "Sign In"}
+                </button>
+              </p>
+            </div>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-            <p className="text-gray-600">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}
-              <button
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  setError('');
-                }}
-                className="ml-2 text-blue-600 font-semibold hover:text-blue-800"
-              >
-                {isLogin ? 'Sign Up' : 'Sign In'}
-              </button>
-            </p>
-          </div>
-
           <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <p className="text-sm text-blue-700 font-medium mb-2">Demo Credentials:</p>
+            <p className="text-sm text-blue-700 font-medium mb-2">
+              Demo Credentials:
+            </p>
             <div className="text-sm text-blue-600 space-y-1">
               <div>Email: test@example.com</div>
               <div>Password: password123</div>
@@ -219,7 +275,8 @@ const AuthForm = ({ onClose }) => {
           </div>
         </div>
       </div>
-    </div>
+    {/* </div> */}
+    </Modal>
   );
 };
 
